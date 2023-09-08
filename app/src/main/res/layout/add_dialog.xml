@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="20dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/esemeleste8far1"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:gravity="right"
+        android:textColorHint="#000000"
+        app:boxStrokeColor="#000000"
+        app:counterEnabled="true"
+        app:counterMaxLength="50"
+        app:hintTextColor="#000000">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/tajawal_light"
+            android:hint="الذكر"
+            android:maxLength="50"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textSize="20dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/adadl7abbet1"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/esemeleste8far1"
+        android:layout_marginBottom="3dp"
+        android:fontFamily="@font/tajawal_light"
+        android:gravity="right"
+        android:textColorHint="#000000"
+        app:boxStrokeColor="#000000"
+        app:counterEnabled="true"
+        app:counterMaxLength="5"
+        app:hintTextColor="#000000">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/number"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/tajawal_light"
+            android:hint="عدد الحبات"
+            android:inputType="number"
+            android:maxLength="5"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textSize="20dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/adadl7abbet1"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="#23AE29"
+        android:fontFamily="@font/tajawal_light"
+        android:text="اضافة"
+        android:textSize="15sp"
+        app:cornerRadius="10dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/adadl7abbet1"
+        android:layout_marginLeft="110dp"
+        android:backgroundTint="#615E5E"
+        android:fontFamily="@font/tajawal_light"
+        android:text="الغاء"
+        android:textSize="15sp"
+        app:cornerRadius="10dp" />
+</RelativeLayout>

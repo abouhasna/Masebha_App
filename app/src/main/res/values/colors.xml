@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="red_color">#FF0000</color>
+
+    <color name="colorPrimary1">#202020</color>
+    <color name="colorSecondary1">#E6DFDF</color>
+    <color name="colorAccent1">#000000</color>
+    <color name="colorToolbar1">#000000</color>
+
+
+    <color name="colorPrimary2">#0c0c0c</color>
+    <color name="colorSecondary2">#a0d1e6</color>
+    <color name="colorAccent2">#FFFFFF</color>
+    <color name="colorToolbar2">#202020</color>
+
+    <color name="colorCard">#000000</color>
+    <color name="colorCardAccent">#FFFFFF</color>
+    <!-- Define additional colors as needed -->
+
+</resources>

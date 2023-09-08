@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary2">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:titleTextColor="@color/white"
+        app:title=""
+        android:paddingRight="15dp"
+        android:background="@color/colorToolbar2">
+            <ImageButton
+            android:id="@+id/color_picker_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@color/colorToolbar2"
+            android:padding="8dp"
+            android:layout_margin="0dp"
+            android:src="@drawable/vibration_icon_on"
+            android:contentDescription="Toggle Vibration" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:layout_below="@id/toolbar"
+        android:id="@+id/space1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/zekerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/space1"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/tajawal_regular"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="3dp"
+        android:textColor="@color/colorAccent2"
+        android:textSize="30sp"
+        android:text="سبحان الله"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/space2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/zekerName"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/brt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/space2"
+        android:layout_marginLeft="25dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/adadkulli1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/tajawal_light"
+            android:text="العدد الكلي"
+            android:textColor="@color/colorAccent2"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/tajawal_light"
+            android:text="33"
+            android:textColor="@color/colorAccent2"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dawra1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/space2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="25dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dawratxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/space2"
+            android:fontFamily="@font/tajawal_light"
+            android:text="دورة"
+            android:textColor="@color/colorAccent2"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/dawra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/space2"
+            android:layout_gravity="center"
+            android:fontFamily="@font/tajawal_light"
+            android:text="10"
+            android:textColor="@color/colorAccent2"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/edded1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dawra1">
+
+        <ProgressBar
+            android:id="@+id/progress_button"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/progress_background"
+            android:indeterminateOnly="false"
+            android:progress="33"
+            android:progressDrawable="@drawable/custom_progress_bar"
+            android:rotation="-90" />
+
+        <TextView
+            android:id="@+id/current_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/tajawal_extralight"
+            android:text="0"
+            android:textColor="@color/colorAccent2"
+            android:textSize="100sp" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/reset"
+        android:layout_width="83dp"
+        android:layout_height="83dp"
+        android:layout_below="@+id/edded1"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="25dp"
+        android:backgroundTint="@color/colorSecondary2"
+        android:contentDescription="Reset the number"
+        android:src="@drawable/reset_icon"
+        app:borderWidth="0dp" />
+</RelativeLayout>

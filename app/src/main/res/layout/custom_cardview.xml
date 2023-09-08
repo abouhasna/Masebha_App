@@ -1,0 +1,59 @@
+<!-- custom_cardview.xml -->
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/colorCard"
+    app:cardCornerRadius="11dp"
+    app:cardElevation="4dp"
+    android:id="@+id/custom_card">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+
+        <ImageView
+            android:id="@+id/more_option"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/more_icon"
+            android:layout_gravity="center"/>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="سبحان الله"
+                android:fontFamily="@font/tajawal_light"
+                android:textColor="@color/colorCardAccent" />
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/colorCardAccent"
+                android:text="عدد التسبيح: 200"
+                android:fontFamily="@font/tajawal_light"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
