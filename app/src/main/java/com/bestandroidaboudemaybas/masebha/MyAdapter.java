@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.text.Layout;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -31,11 +33,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<CardData> cardDataList;
     private Context context;
     private OnItemDeletedListener itemDeletedListener;
+    private Integer cardBackgroundColor;
+    private Integer cardTextColor;
 
-    public MyAdapter(List<CardData> cardDataList, Context context, OnItemDeletedListener listener) {
+    public MyAdapter(List<CardData> cardDataList, Context context, OnItemDeletedListener itemDeletedListener, Integer cardBackgroundColor, Integer cardTextColor) {
         this.cardDataList = cardDataList;
         this.context = context;
-        this.itemDeletedListener = listener;
+        this.itemDeletedListener = itemDeletedListener;
+        this.cardBackgroundColor = cardBackgroundColor;
+        this.cardTextColor = cardTextColor;
     }
 
     @NonNull
@@ -49,7 +55,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CardData cardData = cardDataList.get(position);
         holder.titleTextView.setText(cardData.getTitle());
+        holder.titleTextView.setTextColor(cardTextColor);
         holder.descriptionTextView.setText(cardData.getDescription());
+        holder.descriptionTextView.setTextColor(cardTextColor);
+        holder.moreOption.setColorFilter(cardTextColor);
+        CardView cardView = (CardView) holder.itemView;
+        cardView.setCardBackgroundColor(cardBackgroundColor);
     }
 
     @Override
@@ -60,7 +71,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public interface OnItemDeletedListener {
         void onItemDeleted(int total);
     }
-
+    public void changeCardColors(int color,int textColor){
+        cardBackgroundColor = color;
+        cardTextColor = textColor;
+        notifyDataSetChanged();
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView descriptionTextView;

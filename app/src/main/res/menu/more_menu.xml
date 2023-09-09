@@ -4,6 +4,5 @@
             android:title="تعديل"/>
         <item
             android:id="@+id/menu_delete"
-            android:title="حذف"
-            android:theme="@style/CustomMenuItemText"/>
+            android:title="حذف"/>
 </menu>

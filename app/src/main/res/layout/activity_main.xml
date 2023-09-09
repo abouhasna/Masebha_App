@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary1"
+    android:id="@+id/main_layout"
     tools:context="com.bestandroidaboudemaybas.masebha.MainActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -24,14 +25,13 @@
             android:padding="8dp"
             android:layout_margin="0dp"
             android:src="@drawable/color_picker_icon"
-            android:contentDescription="Toggle Vibration" />
+            android:contentDescription="Change App colors" />
     </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:layout_above="@id/bottom_id"
         android:clipToPadding="false" />
 
 
@@ -39,18 +39,18 @@
         android:id="@+id/bottom_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp">
+        android:layout_alignParentBottom="true">
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:contentDescription="Add zeker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:backgroundTint="@color/colorSecondary1"
+            app:backgroundTint="#FFFFFF"
+            android:elevation="0dp"
             app:srcCompat="@drawable/add_icon"/>
         <LinearLayout
             android:id="@+id/total_layout"
@@ -58,10 +58,11 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_marginBottom="20dp"
             android:elevation="3dp"
-            android:background="@drawable/rounded_background"
-            android:padding="7dp">
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/majmu3"
@@ -72,9 +73,11 @@
                 android:fontFamily="@font/tajawal_regular"
                 android:textColor="@color/colorAccent1"
                 android:layout_centerVertical="true"
+
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/majmu3_static"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/tajawal_bold"
