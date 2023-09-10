@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -76,6 +77,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         cardTextColor = textColor;
         notifyDataSetChanged();
     }
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView descriptionTextView;
@@ -126,7 +129,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     PopupMenu popupMenu = new PopupMenu(context, view);
                     popupMenu.getMenuInflater().inflate(R.menu.more_menu, popupMenu.getMenu());
 
-                    //change color of حذف
                     MenuItem deleteMenuItem = popupMenu.getMenu().findItem(R.id.menu_delete);
                     SpannableString s = new SpannableString("حذف");
                     s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
@@ -243,13 +245,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                                                 //I want the total to edit "majmu3" in MainActivity, i will get it from my cursor, it's easier
                                                 Cursor myCursor = myDB.rawQuery("select * from zeker where _id = "+ cardId, null);
-                                                myCursor.moveToFirst();
+                                                myCursor.moveToNext();
                                                 Integer cardTotal = myCursor.getInt(2);
                                                 myCursor.close();
                                                 if (itemDeletedListener != null) {
                                                     itemDeletedListener.onItemDeleted(cardTotal);
                                                 }
 
+                                                for (int i = position + 1; i < adapter.cardDataList.size(); i++) {
+                                                    CardData movedCardData = adapter.cardDataList.get(i);
+                                                    ContentValues movedZeker = new ContentValues();
+                                                    movedZeker.put("position", i-1);
+                                                    myDB.update("zeker", movedZeker, "_id=?", new String[] { String.valueOf(movedCardData.getId()) });
+                                                }
 
                                                 myDB.execSQL("DELETE FROM zeker WHERE _id = "+ cardId);
 

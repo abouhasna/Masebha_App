@@ -1,172 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="#202020">
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:titleTextColor="@color/white"
-        app:title=""
-        android:paddingRight="15dp"
-        android:background="#000000">
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/stroked_layout">
-        <include
-            layout="@layout/custom_cardview"
-            android:id="@+id/card_layout"/>
 
-        <RelativeLayout
-            android:id="@+id/bottom_id"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:titleTextColor="@color/white"
+            app:title=""
+            android:paddingRight="15dp"
+            android:background="#000000">
+        </androidx.appcompat.widget.Toolbar>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:contentDescription="Add zeker"
+            app:tabTextColor="@color/white"
+            app:tabIndicatorColor="@color/white"
+            android:background="#787676">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                app:backgroundTint="#FFFFFF"
-                android:clickable="false"
-                app:srcCompat="@drawable/add_icon"/>
-            <LinearLayout
-                android:id="@+id/total_layout"
+                android:text="الرئيسية" />
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:elevation="3dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:text="التسبيح" />
 
-                <TextView
-                    android:id="@+id/majmu3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:fontFamily="@font/tajawal_regular"
-                    android:textColor="@color/colorAccent1"
-                    android:layout_centerVertical="true"
-                    android:text="1500"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/majmu3_static"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/tajawal_bold"
-                    android:text="المجموع :"
-                    android:textColor="@color/colorAccent1"
-                    android:layout_centerVertical="true"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>
+        </com.google.android.material.tabs.TabLayout>
 
 
-    <LinearLayout
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:background="@drawable/rounded_layout_colorpicker">
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginRight="15dp" >
-
-            <RadioButton
-                android:id="@+id/radioCard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Card"
-                android:textColor="#000000"
-                android:fontFamily="@font/tajawal_medium"
-                android:checked="true" />
-
-            <RadioButton
-                android:id="@+id/radioBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Background"
-                android:textColor="#000000"
-                android:fontFamily="@font/tajawal_medium"/>
-            <RadioButton
-                android:id="@+id/radioText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:textColor="#000000"
-                android:fontFamily="@font/tajawal_medium"/>
-            <RadioButton
-                android:id="@+id/radioTools"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tools"
-                android:textColor="#000000"
-                android:fontFamily="@font/tajawal_medium"/>
-            <RadioButton
-                android:id="@+id/radioToolsAccent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tools Accent"
-                android:textColor="#000000"
-                android:fontFamily="@font/tajawal_medium"/>
-        </RadioGroup>
-
-        <com.flask.colorpicker.ColorPickerView
-            android:id="@+id/color_picker_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:alphaSlider="true"
-            app:density="12"
-            app:lightnessSlider="true"
-            app:wheelType="FLOWER"
-            app:lightnessSliderView="@+id/v_lightness_slider"
-            app:alphaSliderView="@+id/v_alpha_slider"
-            />
-    </LinearLayout>
-
-
-    <com.flask.colorpicker.slider.LightnessSlider
-        android:id="@+id/v_lightness_slider"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        />
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Save"
-        app:cornerRadius="8dp"
-        android:textColor="#000000"
-        app:rippleColor="@color/cardview_dark_background"
-        android:backgroundTint="#FFFFFF"/>
+        android:layout_height="match_parent"
+        android:contentDescription="ViewPager for tab content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
 
 </LinearLayout>

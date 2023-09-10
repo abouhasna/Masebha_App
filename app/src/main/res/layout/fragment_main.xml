@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#938E8E">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#938E8E">
+            <LinearLayout
+                android:id="@+id/background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_margin="10dp">
+                <include
+                    layout="@layout/custom_cardview"
+                    android:id="@+id/card_layout"/>
+
+                <RelativeLayout
+                    android:id="@+id/bottom_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab"
+                        android:contentDescription="Add zeker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        app:backgroundTint="#FFFFFF"
+                        android:clickable="false"
+                        app:srcCompat="@drawable/add_icon"/>
+                    <LinearLayout
+                        android:id="@+id/total_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:elevation="3dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/majmu3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:fontFamily="@font/tajawal_regular"
+                            android:textColor="@color/colorAccent1"
+                            android:layout_centerVertical="true"
+                            android:text="1500"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/majmu3_static"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/tajawal_bold"
+                            android:text="المجموع :"
+                            android:textColor="@color/colorAccent1"
+                            android:layout_centerVertical="true"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                android:background="@drawable/rounded_layout_colorpicker">
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical">
+
+                    <RadioButton
+                        android:id="@+id/radioCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="البطاقة"
+                        android:textColor="#000000"
+                        android:fontFamily="@font/tajawal_medium"
+                        android:checked="true" />
+
+                    <RadioButton
+                        android:id="@+id/radioBackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="الخلفية"
+                        android:textColor="#000000"
+                        android:fontFamily="@font/tajawal_medium"/>
+                    <RadioButton
+                        android:id="@+id/radioText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="النص"
+                        android:textColor="#000000"
+                        android:fontFamily="@font/tajawal_medium"/>
+                    <RadioButton
+                        android:id="@+id/radioTools"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="أدوات"
+                        android:textColor="#000000"
+                        android:fontFamily="@font/tajawal_medium"/>
+                    <RadioButton
+                        android:id="@+id/radioToolsAccent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="نص الأدوات"
+                        android:textColor="#000000"
+                        android:fontFamily="@font/tajawal_medium"/>
+                </RadioGroup>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.flask.colorpicker.ColorPickerView
+                        android:id="@+id/color_picker_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        app:density="12"
+                        app:lightnessSlider="true"
+                        app:wheelType="CIRCLE"
+                        app:lightnessSliderView="@+id/v_lightness_slider" />
+                </RelativeLayout>
+
+
+
+
+
+            </LinearLayout>
+
+
+            <com.flask.colorpicker.slider.LightnessSlider
+                android:id="@+id/v_lightness_slider"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                />
+
+            <RelativeLayout
+                android:id="@+id/buttonsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/returnDefault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="الألوان الافتراضية"
+                    app:cornerRadius="8dp"
+                    android:textColor="#000000"
+                    android:fontFamily="@font/tajawal_medium"
+                    app:rippleColor="@color/cardview_dark_background"
+                    android:backgroundTint="#ECE5E5"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/returnDefault"
+                    android:layout_marginLeft="7dp"
+                    android:text="حفظ"
+                    app:cornerRadius="8dp"
+                    android:textColor="#000000"
+                    android:fontFamily="@font/tajawal_bold"
+                    app:rippleColor="@color/cardview_dark_background"
+                    android:backgroundTint="#FFFFFF"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/selectedHexColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/saveButton"
+                    android:layout_marginLeft="7dp"
+                    android:text="#FFFF"
+                    app:cornerRadius="8dp"
+                    android:fontFamily="@font/tajawal_bold"
+                    android:textColor="#FFFF"
+                    app:rippleColor="@color/cardview_dark_background"
+                    android:backgroundTint="#000000"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/esemeleste8far1"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/returnDefault"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:textColorHint="#FFFFFF"
+                    app:boxStrokeColor="#FFFFFF"
+                    app:hintTextColor="#EAE2E2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/enteredHexColor"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/tajawal_light"
+                        android:hint="Hex color"
+                        android:textColor="#000000"
+                        android:textColorHint="#000000"
+                        android:textSize="20sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

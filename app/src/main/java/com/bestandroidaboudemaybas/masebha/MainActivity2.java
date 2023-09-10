@@ -6,8 +6,13 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
@@ -16,20 +21,47 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity2 extends AppCompatActivity {
+    private SharedPreferences sharedPreferences;
     private SQLiteDatabase myDB;
     private CardData cardData;
-    private TextView total;
-    private ProgressBar progressBar;
-    private TextView currentNumber;
-    private TextView dawra;
+
+
+
     private Integer jalseNumber;
     private ImageButton btnToggleVibration;
     private boolean isVibrationEnabled;
+
+
+
+
+    private Toolbar toolbar;
+    private RelativeLayout background;
+    private TextView zekerName;
+    private TextView adadkulli1;
+    private TextView total;
+    private TextView dawratxt;
+    private TextView dawra;
+    private ProgressBar progressBar;
+    private TextView currentNumber;
+
+    private FloatingActionButton resetButton;
+
+
+
+    private GradientDrawable strokDrawable;
+    private GradientDrawable ringDrawable;
+    private GradientDrawable ringAccentDrawable;
+    private LayerDrawable strokLayerDrawable;
+    private LayerDrawable ringLayerDrawable;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +76,22 @@ public class MainActivity2 extends AppCompatActivity {
 
         setupToolbar();
 
-        TextView zekerName =  findViewById(R.id.zekerName);
+        sharedPreferences = getSharedPreferences("ColorsPrefs", Context.MODE_PRIVATE);
+        background = findViewById(R.id.rl);
+        zekerName =  findViewById(R.id.zekerName);
+        adadkulli1 = findViewById(R.id.adadkulli1);
         total = findViewById(R.id.total);
+        dawratxt = findViewById(R.id.dawratxt);
         dawra =  findViewById(R.id.dawra);
         progressBar = findViewById(R.id.progress_button);
         currentNumber =  findViewById(R.id.current_number);
-        FloatingActionButton resetButton = findViewById(R.id.reset);
+        resetButton = findViewById(R.id.reset);
 
+        strokLayerDrawable = (LayerDrawable) progressBar.getBackground();
+        strokDrawable = (GradientDrawable) strokLayerDrawable.getDrawable(0);
+        ringLayerDrawable = (LayerDrawable) progressBar.getProgressDrawable();
+        ringDrawable = (GradientDrawable) ringLayerDrawable.getDrawable(1);
+        ringAccentDrawable = (GradientDrawable) ringLayerDrawable.getDrawable(0);
 
         zekerName.setText(cardData.getTitle());
         total.setText(cardData.getDescription());
@@ -108,7 +149,7 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_icon);
@@ -193,7 +234,28 @@ public class MainActivity2 extends AppCompatActivity {
         myDB.close();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        zekerName.setTextColor(sharedPreferences.getInt("textSelectedColor1", Color.WHITE));
+        adadkulli1.setTextColor(sharedPreferences.getInt("textSelectedColor1", Color.WHITE));
+        total.setTextColor(sharedPreferences.getInt("textSelectedColor1", Color.WHITE));
+        dawratxt.setTextColor(sharedPreferences.getInt("textSelectedColor1", Color.WHITE));
+        dawra.setTextColor(sharedPreferences.getInt("textSelectedColor1", Color.WHITE));
 
+        background.setBackgroundColor(sharedPreferences.getInt("backgroundSelectedColor1", Color.parseColor("#202020")));
+        float strokeWidthDp = 52;
+        float strokeWidthPixels = strokeWidthDp * getResources().getDisplayMetrics().density;
+        strokDrawable.setStroke((int) strokeWidthPixels, sharedPreferences.getInt("backgroundSelectedColor1", Color.parseColor("#202020")));
+        strokDrawable.setColor(sharedPreferences.getInt("progressButtonSelectedColor", Color.BLACK));
+        toolbar.setBackgroundColor(sharedPreferences.getInt("progressButtonSelectedColor", Color.BLACK));
+        btnToggleVibration.setBackgroundColor(sharedPreferences.getInt("progressButtonSelectedColor", Color.BLACK));
+        currentNumber.setTextColor(sharedPreferences.getInt("progressTextSelectedColor", Color.WHITE));
+        resetButton.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#a0d1e6"))));
+        ringDrawable.setColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#a0d1e6")));
+        resetButton.setColorFilter(sharedPreferences.getInt("resetAccentSelectedColor",Color.parseColor("#383838")));
+        ringAccentDrawable.setColor(sharedPreferences.getInt("resetAccentSelectedColor",Color.parseColor("#383838")));
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
