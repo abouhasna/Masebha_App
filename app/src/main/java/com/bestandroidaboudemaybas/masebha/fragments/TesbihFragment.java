@@ -194,7 +194,7 @@ public class TesbihFragment extends Fragment {
                     ringAccentDrawable.setColor(color);
 //                    progressBar.setProgressDrawable(ringDrawable);
                 }
-
+                selectedHexColor.setText(String.format("#%06X", (0xFFFFFF & color)));
             }
         };
         colorPickerView.addOnColorSelectedListener(onColorSelectedListener);

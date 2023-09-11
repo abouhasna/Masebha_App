@@ -11,7 +11,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         app:titleTextColor="@color/white"
         app:title=""
         android:paddingRight="10dp"
@@ -22,10 +22,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:background="@color/colorToolbar1"
+
             android:padding="8dp"
             android:layout_margin="0dp"
             android:src="@drawable/color_picker_icon"
             android:contentDescription="Change App colors" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:src="@drawable/icon_islamic_arabic_vector"/>
     </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -139,7 +139,7 @@ public class MainFragment extends Fragment {
 
                 drawable.setShape(GradientDrawable.RECTANGLE);
                 drawable.setColor(toolsSelectedColor);
-                drawable.setCornerRadius(10);
+                drawable.setCornerRadius(40);
 
                 totalLayout.setBackground(drawable);
                 fab.setBackgroundTintList(ColorStateList.valueOf(toolsSelectedColor));

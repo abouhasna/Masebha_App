@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -35,6 +36,8 @@ public class MainActivity2 extends AppCompatActivity {
 
     private Integer jalseNumber;
     private ImageButton btnToggleVibration;
+    private ImageButton modeToggle;
+
     private boolean isVibrationEnabled;
 
 
@@ -61,7 +64,7 @@ public class MainActivity2 extends AppCompatActivity {
     private LayerDrawable ringLayerDrawable;
 
 
-
+    private FrameLayout overlayLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,8 @@ public class MainActivity2 extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_button);
         currentNumber =  findViewById(R.id.current_number);
         resetButton = findViewById(R.id.reset);
+        overlayLayout = findViewById(R.id.overlayLayout);
+        modeToggle = findViewById(R.id.toggle_mode_button);
 
         strokLayerDrawable = (LayerDrawable) progressBar.getBackground();
         strokDrawable = (GradientDrawable) strokLayerDrawable.getDrawable(0);
@@ -105,26 +110,7 @@ public class MainActivity2 extends AppCompatActivity {
         progressBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jalseNumber++;
-                Integer newCurrentNumber =Integer.parseInt(currentNumber.getText().toString())+1;
-                currentNumber.setText(newCurrentNumber.toString());
-
-                progressBar.setProgress( (newCurrentNumber * 10000) / cardData.getDawra() );
-
-
-                Integer newTotal =Integer.parseInt(total.getText().toString())+1;
-                total.setText(newTotal.toString());
-
-                if(progressBar.getProgress()==10000){
-                    progressBar.setProgress(0);
-                    currentNumber.setText("0");
-                    Integer newDawra = Integer.parseInt(dawra.getText().toString())+1;
-                    dawra.setText(newDawra.toString());
-                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    if (vibrator != null && vibrator.hasVibrator()) {
-                        if(isVibrationEnabled) {vibrator.vibrate(100);}
-                    }
-                }
+                progressUpdate();
             }
         });
         resetButton.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +132,49 @@ public class MainActivity2 extends AppCompatActivity {
                 toggleVibration();
             }
         });
+        overlayLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressUpdate();
+            }
+        });
+        overlayLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                overlayLayout.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+        modeToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                overlayLayout.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void progressUpdate() {
+        jalseNumber++;
+        Integer newCurrentNumber =Integer.parseInt(currentNumber.getText().toString())+1;
+        currentNumber.setText(newCurrentNumber.toString());
+
+        progressBar.setProgress( (newCurrentNumber * 10000) / cardData.getDawra() );
+
+
+        Integer newTotal =Integer.parseInt(total.getText().toString())+1;
+        total.setText(newTotal.toString());
+
+        if(progressBar.getProgress()==10000){
+            progressBar.setProgress(0);
+            currentNumber.setText("0");
+            Integer newDawra = Integer.parseInt(dawra.getText().toString())+1;
+            dawra.setText(newDawra.toString());
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                if(isVibrationEnabled) {vibrator.vibrate(100);}
+            }
+        }
     }
 
     private void setupToolbar() {
