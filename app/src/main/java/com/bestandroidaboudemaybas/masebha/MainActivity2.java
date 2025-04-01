@@ -1,9 +1,10 @@
 package com.bestandroidaboudemaybas.masebha;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
@@ -27,20 +29,24 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+
 public class MainActivity2 extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
+    private SharedPreferences soundSharedPreferences;
+
     private SQLiteDatabase myDB;
     private CardData cardData;
 
 
-
     private Integer jalseNumber;
-    private ImageButton btnToggleVibration;
-    private ImageButton modeToggle;
+//    private ImageButton btnToggleVibration;
+    private TextView modeToggle;
+//    private ImageButton soundToggle;
 
     private boolean isVibrationEnabled;
+    private boolean isSoundEnabled;
 
-
+    private MediaPlayer mediaPlayer;
 
 
     private Toolbar toolbar;
@@ -56,7 +62,6 @@ public class MainActivity2 extends AppCompatActivity {
     private FloatingActionButton resetButton;
 
 
-
     private GradientDrawable strokDrawable;
     private GradientDrawable ringDrawable;
     private GradientDrawable ringAccentDrawable;
@@ -65,7 +70,7 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     private FrameLayout overlayLayout;
-
+    private ImageButton closeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,16 +85,19 @@ public class MainActivity2 extends AppCompatActivity {
         setupToolbar();
 
         sharedPreferences = getSharedPreferences("ColorsPrefs", Context.MODE_PRIVATE);
+        soundSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         background = findViewById(R.id.rl);
-        zekerName =  findViewById(R.id.zekerName);
+        zekerName = findViewById(R.id.zekerName);
         adadkulli1 = findViewById(R.id.adadkulli1);
         total = findViewById(R.id.total);
         dawratxt = findViewById(R.id.dawratxt);
-        dawra =  findViewById(R.id.dawra);
+        dawra = findViewById(R.id.dawra);
         progressBar = findViewById(R.id.progress_button);
-        currentNumber =  findViewById(R.id.current_number);
+        currentNumber = findViewById(R.id.current_number);
         resetButton = findViewById(R.id.reset);
         overlayLayout = findViewById(R.id.overlayLayout);
+        closeButton = findViewById(R.id.close_button);
         modeToggle = findViewById(R.id.toggle_mode_button);
 
         strokLayerDrawable = (LayerDrawable) progressBar.getBackground();
@@ -101,9 +109,9 @@ public class MainActivity2 extends AppCompatActivity {
         zekerName.setText(cardData.getTitle());
         total.setText(cardData.getDescription());
         dawra.setText("0");
-        currentNumber.setText("0");
+        currentNumber.setText(String.valueOf(Integer.parseInt(cardData.getDescription()) % cardData.getDawra()));
         progressBar.setMax(10000);
-        progressBar.setProgress(0);
+        progressBar.setProgress((Integer.parseInt(currentNumber.getText().toString()) * 10000) / cardData.getDawra());
         jalseNumber = 0;
 
 
@@ -120,32 +128,52 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
+        isVibrationEnabled = soundSharedPreferences.getBoolean("default_vibration", true);
+//        btnToggleVibration = findViewById(R.id.color_picker_button);
+//        if (isVibrationEnabled) {
+//            btnToggleVibration.setImageResource(R.drawable.vibration_icon_on);
+//        } else {
+//            btnToggleVibration.setImageResource(R.drawable.vibration_icon_off);
+//        }
+//        btnToggleVibration.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                toggleVibration();
+//            }
+//        });
 
+        mediaPlayer = MediaPlayer.create(this, R.raw.click);
+        isSoundEnabled = soundSharedPreferences.getBoolean("default_sound", false);
+//        soundToggle = findViewById(R.id.toggle_sound_button);
+//        if (isSoundEnabled) {
+//            soundToggle.setImageResource(R.drawable.sound_on);
+//        } else {
+//            soundToggle.setImageResource(R.drawable.sound_off);
+//        }
+//        soundToggle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) { toggleSound(); }
+//        });
 
-        isVibrationEnabled = true;
-        btnToggleVibration = findViewById(R.id.color_picker_button);
-
-
-        btnToggleVibration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleVibration();
-            }
-        });
         overlayLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressUpdate();
             }
         });
-        overlayLayout.setOnLongClickListener(new View.OnLongClickListener() {
+//        overlayLayout.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                overlayLayout.setVisibility(View.GONE);
+//                return false;
+//            }
+//        });
+        closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 overlayLayout.setVisibility(View.GONE);
-                return false;
             }
         });
-
         modeToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,23 +184,27 @@ public class MainActivity2 extends AppCompatActivity {
 
     private void progressUpdate() {
         jalseNumber++;
-        Integer newCurrentNumber =Integer.parseInt(currentNumber.getText().toString())+1;
+        Integer newCurrentNumber = Integer.parseInt(currentNumber.getText().toString()) + 1;
         currentNumber.setText(newCurrentNumber.toString());
 
-        progressBar.setProgress( (newCurrentNumber * 10000) / cardData.getDawra() );
+        progressBar.setProgress((newCurrentNumber * 10000) / cardData.getDawra());
 
 
-        Integer newTotal =Integer.parseInt(total.getText().toString())+1;
+        Integer newTotal = Integer.parseInt(total.getText().toString()) + 1;
         total.setText(newTotal.toString());
-
-        if(progressBar.getProgress()==10000){
+        if (isSoundEnabled) {
+            mediaPlayer.start();
+        }
+        if (progressBar.getProgress() == 10000) {
             progressBar.setProgress(0);
             currentNumber.setText("0");
-            Integer newDawra = Integer.parseInt(dawra.getText().toString())+1;
+            Integer newDawra = Integer.parseInt(dawra.getText().toString()) + 1;
             dawra.setText(newDawra.toString());
             Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             if (vibrator != null && vibrator.hasVibrator()) {
-                if(isVibrationEnabled) {vibrator.vibrate(100);}
+                if (isVibrationEnabled) {
+                    vibrator.vibrate(100);
+                }
             }
         }
     }
@@ -235,23 +267,32 @@ public class MainActivity2 extends AppCompatActivity {
     private void readFromDb(Bundle extras) {
         int clickedCardId = extras.getInt("clickedCardId", -1);
         myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
-        Cursor myCursor = myDB.rawQuery("select * from zeker where _id = "+ clickedCardId, null);
+        Cursor myCursor = myDB.rawQuery("select * from zeker where _id = " + clickedCardId, null);
         myCursor.moveToFirst();
         String description = String.valueOf(myCursor.getInt(2));
-        cardData = new CardData(myCursor.getInt(0),myCursor.getString(1),description,myCursor.getInt(3));
+        cardData = new CardData(myCursor.getInt(0), myCursor.getString(1), description, myCursor.getInt(3));
         myCursor.close();
         myDB.close();
     }
 
 
-    private void toggleVibration() {
-        isVibrationEnabled = !isVibrationEnabled;
-        if (isVibrationEnabled) {
-            btnToggleVibration.setImageResource(R.drawable.vibration_icon_on);
-        } else {
-            btnToggleVibration.setImageResource(R.drawable.vibration_icon_off);
-        }
-    }
+//    private void toggleVibration() {
+//        isVibrationEnabled = !isVibrationEnabled;
+//        if (isVibrationEnabled) {
+//            btnToggleVibration.setImageResource(R.drawable.vibration_icon_on);
+//        } else {
+//            btnToggleVibration.setImageResource(R.drawable.vibration_icon_off);
+//        }
+//    }
+
+//    private void toggleSound() {
+//        isSoundEnabled = !isSoundEnabled;
+//        if (isSoundEnabled) {
+//            soundToggle.setImageResource(R.drawable.sound_on);
+//        } else {
+//            soundToggle.setImageResource(R.drawable.sound_off);
+//        }
+//    }
 
     @Override
     protected void onPause() {
@@ -259,7 +300,7 @@ public class MainActivity2 extends AppCompatActivity {
         myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
         ContentValues updatedValues = new ContentValues();
         updatedValues.put("total", Integer.parseInt(total.getText().toString()));
-        myDB.update("zeker", updatedValues, "_id=?", new String[] { String.valueOf(cardData.getId()) });
+        myDB.update("zeker", updatedValues, "_id=?", new String[]{String.valueOf(cardData.getId())});
         myDB.close();
     }
 
@@ -277,13 +318,13 @@ public class MainActivity2 extends AppCompatActivity {
         float strokeWidthPixels = strokeWidthDp * getResources().getDisplayMetrics().density;
         strokDrawable.setStroke((int) strokeWidthPixels, sharedPreferences.getInt("backgroundSelectedColor1", Color.parseColor("#202020")));
         strokDrawable.setColor(sharedPreferences.getInt("progressButtonSelectedColor", Color.BLACK));
-        toolbar.setBackgroundColor(sharedPreferences.getInt("progressButtonSelectedColor", Color.BLACK));
-        btnToggleVibration.setBackgroundColor(sharedPreferences.getInt("progressButtonSelectedColor", Color.BLACK));
+        toolbar.setBackgroundColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736")));
+//        btnToggleVibration.setBackgroundColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736")));
         currentNumber.setTextColor(sharedPreferences.getInt("progressTextSelectedColor", Color.WHITE));
-        resetButton.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#a0d1e6"))));
-        ringDrawable.setColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#a0d1e6")));
-        resetButton.setColorFilter(sharedPreferences.getInt("resetAccentSelectedColor",Color.parseColor("#383838")));
-        ringAccentDrawable.setColor(sharedPreferences.getInt("resetAccentSelectedColor",Color.parseColor("#383838")));
+        resetButton.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736"))));
+        ringDrawable.setColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736")));
+        resetButton.setColorFilter(sharedPreferences.getInt("resetAccentSelectedColor",Color.parseColor("#DCDCDC")));
+        ringAccentDrawable.setColor(sharedPreferences.getInt("resetAccentSelectedColor", Color.parseColor("#DCDCDC")));
     }
 
     @Override
@@ -295,4 +336,12 @@ public class MainActivity2 extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
 }

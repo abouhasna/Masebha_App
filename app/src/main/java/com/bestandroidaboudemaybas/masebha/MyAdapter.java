@@ -87,10 +87,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         SQLiteDatabase myDB;
         public ViewHolder(View itemView, MyAdapter adapter, Context context,OnItemDeletedListener itemDeletedListener) {
             super(itemView);
+            this.adapter = adapter;
             titleTextView = itemView.findViewById(R.id.titleTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             moreOption = itemView.findViewById(R.id.more_option);
-            this.adapter = adapter;
+
 
 
 
@@ -107,7 +108,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                         CardData cardData = adapter.cardDataList.get(position);
 
-                        long cardId = cardData.getId();
 
                         Intent intent = new Intent(itemView.getContext(), MainActivity2.class);
 
@@ -170,17 +170,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                                 EditText editText1 = dialogView.findViewById(R.id.name);
                                 EditText editText2 = dialogView.findViewById(R.id.number);
+                                EditText editText3 = dialogView.findViewById(R.id.adadltesbih);
                                 Button addButton = dialogView.findViewById(R.id.addButton);
                                 Button cancelButton = dialogView.findViewById(R.id.cancelButton);
                                 addButton.setText("تعديل");
                                 editText1.setText(cardData.getTitle());
                                 editText2.setText(cardData.getDawra().toString());
-
+                                String numberStr = cardData.getDescription().replaceAll("[^0-9]", "");
+                                int oldTesbihNumber = Integer.parseInt(numberStr);
+                                editText3.setText(numberStr);
 
                                 addButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        if (TextUtils.isEmpty(editText1.getText().toString().trim()) || TextUtils.isEmpty(editText2.getText().toString().trim())) {
+                                        if (TextUtils.isEmpty(editText1.getText().toString().trim()) || TextUtils.isEmpty(editText2.getText().toString().trim()) || TextUtils.isEmpty(editText3.getText().toString().trim())) {
                                             Toast.makeText(context, "الرجاء ملء الخانات", Toast.LENGTH_LONG).show();
                                         }
                                         else if (Integer.parseInt(editText2.getText().toString())==0) {
@@ -189,10 +192,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                         else{
                                             String name = editText1.getText().toString();
                                             String number = editText2.getText().toString();
-
+                                            String tesbihNumber = editText3.getText().toString();
 
                                             ContentValues editedZeker = new ContentValues();
                                             editedZeker.put("name", name);
+                                            editedZeker.put("total", Integer.parseInt(tesbihNumber));
                                             editedZeker.put("dawra", Integer.parseInt(number));
                                             myDB.update("zeker", editedZeker, "_id=?", new String[] { String.valueOf(cardData.getId()) });
                                             DatabaseManager.closeDatabase();
@@ -200,7 +204,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                                             adapter.cardDataList.get(position).setDawra(Integer.parseInt(number));
                                             adapter.cardDataList.get(position).setTitle(name);
-
+                                            String desc = "عدد التسبيح : " + tesbihNumber;
+                                            adapter.cardDataList.get(position).setDescription(desc);
+                                            int differenceTesbih = oldTesbihNumber - Integer.parseInt(tesbihNumber);
+                                            if (itemDeletedListener != null) {
+                                                itemDeletedListener.onItemDeleted(differenceTesbih);
+                                            }
                                             adapter.notifyItemChanged(position);
                                             alertDialog.dismiss();
                                             }
@@ -221,6 +230,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                 return true;
                             }
 
+                            else if(item.getItemId() == R.id.menu_reset) {
+                                showResetConfirmationDialogAndReset();
+                            }
                             return false;
                         }
 
@@ -266,6 +278,55 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 
                                                 adapter.notifyItemRemoved(position);
+
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User cancelled the dialog, do nothing or handle accordingly
+                                        }
+                                    });
+
+                            // Create and show the AlertDialog
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                        private void showResetConfirmationDialogAndReset()  {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setMessage("هل أنت متأكد أنك تريد تصفير عدد هذا الذكر؟")
+                                    .setPositiveButton("تصفير", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            int position = getAdapterPosition();
+
+                                            if (position != RecyclerView.NO_POSITION) {
+
+                                                CardData cardData = adapter.cardDataList.get(position);
+
+                                                myDB = DatabaseManager.getDatabase(context);
+
+                                                long cardId = cardData.getId();
+
+
+                                                //I want the total to edit "majmu3" in MainActivity, i will get it from my cursor, it's easier
+                                                Cursor myCursor = myDB.rawQuery("select * from zeker where _id = "+ cardId, null);
+                                                myCursor.moveToNext();
+                                                Integer cardTotal = myCursor.getInt(2);
+                                                myCursor.close();
+                                                if (itemDeletedListener != null) {
+                                                    itemDeletedListener.onItemDeleted(cardTotal);
+                                                }
+                                                ContentValues editedZeker = new ContentValues();
+                                                editedZeker.put("total", 0);
+                                                myDB.update("zeker", editedZeker, "_id=?", new String[] { String.valueOf(cardData.getId()) });
+
+
+
+                                                DatabaseManager.closeDatabase();
+
+                                                String desc = "عدد التسبيح : " + 0;
+                                                adapter.cardDataList.get(position).setDescription(desc);
+                                                adapter.notifyItemChanged(position);
 
                                             }
                                         }

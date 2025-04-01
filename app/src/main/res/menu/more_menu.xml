@@ -3,6 +3,9 @@
             android:id="@+id/menu_edit"
             android:title="تعديل" />
         <item
+            android:id="@+id/menu_reset"
+            android:title="تصفير"/>
+        <item
             android:id="@+id/menu_delete"
             android:title="حذف"/>
 </menu>

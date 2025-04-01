@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     private Integer totalNumber;
     private Toolbar toolbar;
     private ImageButton colorPickerButton;
+    private ImageButton resetAllButton;
     private SharedPreferences sharedPreferences;
     private RelativeLayout mainLayout;
     private LinearLayout totalLayout;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     private AlertDialog alertDialog;
     private EditText editText1;
     private EditText editText2;
+    private EditText editText3;
     private Button addButton;
     private Button cancelButton;
     private GradientDrawable drawable;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         fab = findViewById(R.id.fab);
         recyclerView = findViewById(R.id.recyclerView);
         colorPickerButton = findViewById(R.id.color_picker_button);
+        resetAllButton = findViewById(R.id.reset_all_button);
         majmu3Static = findViewById(R.id.majmu3_static);
         majmu3 = findViewById(R.id.majmu3);
 
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         alertDialog = dialogBuilder.create();
         editText1  = dialogView.findViewById(R.id.name);
         editText2  = dialogView.findViewById(R.id.number);
+        editText3  = dialogView.findViewById(R.id.adadltesbih);
         addButton    = dialogView.findViewById(R.id.addButton);
         cancelButton = dialogView.findViewById(R.id.cancelButton);
 
@@ -104,16 +108,13 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
         setupToolbar();
 
-        File file = new File(getFilesDir(), "Databayse.txt");
-        if (file.exists()) {
-            recoverData(file);
-        } else {
-            boolean databaseExists = doesDatabaseExist(this, "masebha.db");
 
-            if (!databaseExists) {
-                fillStaticData();
-            }
+        boolean databaseExists = doesDatabaseExist(this, "masebha.db");
+
+        if (!databaseExists) {
+            fillStaticData();
         }
+
 
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -134,11 +135,17 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         colorPickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ColorPickerActivity.class);
+//                Intent intent = new Intent(MainActivity.this, ColorPickerActivity.class);
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
-
+        resetAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayResetDialog();
+            }
+        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,9 +162,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                // Handle the item move operation
-                int fromPosition = viewHolder.getAdapterPosition();
-                int toPosition = target.getAdapterPosition();
 
                 Collections.swap(cardDataList, viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
@@ -169,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
             public void onMoved(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, int fromPos, @NonNull RecyclerView.ViewHolder target, int toPos, int x, int y) {
                 super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
                 ContentValues movedZeker;
-                myDB = DatabaseManager.getDatabase(MainActivity.this);
+                myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
                 if (fromPos < toPos) {
                     for (int i = fromPos; i<=toPos;i++){
                         CardData movedCardData = cardDataList.get(i);
@@ -204,32 +208,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
     }
 
-
-
-    private void recoverData(File file) {
-        ContentValues recoveryZeker;
-        int i = 0;
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            String readLine;
-            myDB = DatabaseManager.getDatabase(this);
-            while ((readLine = bufferedReader.readLine()) != null) {
-                String[] lineComponent = readLine.split("%");
-                recoveryZeker = new ContentValues();
-                recoveryZeker.put("name", lineComponent[0]);
-                recoveryZeker.put("total", Integer.parseInt(lineComponent[2]));
-                recoveryZeker.put("dawra", Integer.parseInt(lineComponent[1]));
-                recoveryZeker.put("position", i);
-                myDB.insert("zeker", null, recoveryZeker);
-                i++;
-            }
-            bufferedReader.close();
-            file.delete();
-            myDB.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void setupToolbar() {
         toolbar = findViewById(R.id.toolbar);
@@ -283,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
         editText2.setText("");
         editText1.setText("");
+        editText3.setText("");
         alertDialog.show();
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -302,10 +281,11 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
             private void addNewZeker() {
                 String name = editText1.getText().toString();
                 String number = editText2.getText().toString();
+                String adadltesbih = TextUtils.isEmpty(editText3.getText().toString().trim()) ? "0" : editText3.getText().toString();
                 myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
                 ContentValues newZeker = new ContentValues();
                 newZeker.put("name", name);
-                newZeker.put("total", 0);
+                newZeker.put("total", Integer.parseInt(adadltesbih));
                 newZeker.put("dawra", Integer.parseInt(number));
                 newZeker.put("position", cardDataList.size());
                 long insertedRowId = myDB.insert("zeker", null, newZeker);
@@ -314,10 +294,13 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
                 if (insertedRowId != -1) {
 
-                    String description = "عدد التسبيح : " + 0;
+                    String description = "عدد التسبيح : " + Integer.parseInt(adadltesbih);
                     CardData newCard = new CardData((int) insertedRowId, name, description, Integer.parseInt(number));
                     cardDataList.add(newCard);
-
+                    if(Integer.parseInt(adadltesbih) != 0){
+                        int newTotal = Integer.parseInt(majmu3.getText().toString()) + Integer.parseInt(adadltesbih);
+                        majmu3.setText(String.valueOf(newTotal));
+                    }
 
                     adapter.notifyItemInserted(cardDataList.size() - 1);
                 }
@@ -336,7 +319,50 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
     }
 
+    private void displayResetDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.reset_all_dialog, null);
+        dialogBuilder.setView(dialogView);
+        AlertDialog alertDialog = dialogBuilder.create();
 
+
+        Button tesfir = dialogView.findViewById(R.id.tesfir);
+        Button cancelReset = dialogView.findViewById(R.id.cancel_reset);
+
+
+
+        tesfir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
+
+                // Reset all totals to 0 in the database
+                ContentValues resetValues = new ContentValues();
+                resetValues.put("total", 0);
+                myDB.update("zeker", resetValues, null, null);
+                for (CardData card : cardDataList) {
+                    card.setDescription("عدد التسبيح : 0");
+                }
+
+                // Reset the total number in the UI
+                totalNumber = 0;
+                majmu3.setText(String.valueOf(totalNumber));
+
+                adapter.notifyDataSetChanged();
+                myDB.close();
+                alertDialog.dismiss();
+            }
+        });
+        cancelReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -350,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         cardDataList.clear();
         totalNumber = 0;
 
-        myDB = DatabaseManager.getDatabase(this);
+        myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
         Cursor myCursor = myDB.rawQuery("select * from zeker", null);
         while (myCursor.moveToNext()) {
             String description = "عدد التسبيح : " + myCursor.getInt(2);
@@ -381,7 +407,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
 
 
-//        toolsAccentSelectedColor = sharedPreferences.getInt("toolsAccentSelectedColor", Color.BLACK);
 
 
         setColors();
@@ -391,21 +416,20 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
     private void setColors() {
         adapter.changeCardColors(sharedPreferences.getInt("cardSelectedColor", Color.BLACK),sharedPreferences.getInt("textSelectedColor", Color.WHITE));
-        toolbar.setBackgroundColor(sharedPreferences.getInt("cardSelectedColor", Color.BLACK));
-        colorPickerButton.setBackgroundColor(sharedPreferences.getInt("cardSelectedColor", Color.BLACK));
+        toolbar.setBackgroundColor(sharedPreferences.getInt("toolsSelectedColor", Color.parseColor("#005b1f")));
         mainLayout.setBackgroundColor(sharedPreferences.getInt("backgroundSelectedColor", Color.parseColor("#202020")));
 
 
         drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setColor(sharedPreferences.getInt("toolsSelectedColor", Color.parseColor("#E6DFDF")));
+        drawable.setColor(sharedPreferences.getInt("toolsSelectedColor", Color.parseColor("#005B1F")));
         drawable.setCornerRadius(40);
 
         totalLayout.setBackground(drawable);
-        fab.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("toolsSelectedColor", Color.parseColor("#E6DFDF"))));
+        fab.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("toolsSelectedColor", Color.parseColor("#005b1f"))));
 
-        fab.setColorFilter(sharedPreferences.getInt("toolsAccentSelectedColor", Color.BLACK));
-        majmu3.setTextColor(sharedPreferences.getInt("toolsAccentSelectedColor", Color.BLACK));
-        majmu3Static.setTextColor(sharedPreferences.getInt("toolsAccentSelectedColor", Color.BLACK));
+        fab.setColorFilter(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));
+        majmu3.setTextColor(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));
+        majmu3Static.setTextColor(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));
     }
 
 

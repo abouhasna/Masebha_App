@@ -10,40 +10,70 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:titleTextColor="@color/white"
-        app:title=""
+        android:background="@color/colorToolbar2"
         android:paddingRight="15dp"
-        android:background="@color/colorToolbar2">
-            <ImageButton
-            android:id="@+id/color_picker_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="#00000000"
-            android:padding="8dp"
-            android:layout_margin="0dp"
-            android:src="@drawable/vibration_icon_on"
-            android:contentDescription="Toggle Vibration" />
-        <ImageButton
+        app:title=""
+        app:titleTextColor="@color/white">
+
+        <TextView
             android:id="@+id/toggle_mode_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="#00000000"
-            android:padding="8dp"
-            android:layout_margin="0dp"
-            android:src="@drawable/mode_toggle_icon"
-            android:contentDescription="Toggle Mode" />
+            android:layout_margin="4dp"
+            android:background="@color/colorSecondary1"
+            android:fontFamily="@font/tajawal_regular"
+            android:padding="5dp"
+            android:text="وضع توفير الطاقة"
+            android:textColor="@color/colorAccent1"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/color_picker_button"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="end"-->
+        <!--            android:layout_margin="0dp"-->
+        <!--            android:background="#00000000"-->
+        <!--            android:contentDescription="Toggle Vibration"-->
+        <!--            android:padding="8dp"-->
+        <!--            android:src="@drawable/vibration_icon_on" />-->
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/toggle_mode_button"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="end"-->
+        <!--            android:layout_margin="0dp"-->
+        <!--            android:background="#00000000"-->
+        <!--            android:contentDescription="Toggle Mode"-->
+        <!--            android:padding="8dp"-->
+        <!--            android:src="@drawable/mode_toggle_icon" />-->
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/toggle_sound_button"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="end"-->
+        <!--            android:layout_margin="0dp"-->
+        <!--            android:background="#00000000"-->
+        <!--            android:contentDescription="Toggle Sound"-->
+        <!--            android:padding="8dp"-->
+        <!--            android:src="@drawable/sound_off" />-->
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="50dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp">
+
             <TextView
                 android:id="@+id/space1"
                 android:layout_width="match_parent"
@@ -59,9 +89,9 @@
                 android:fontFamily="@font/tajawal_regular"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="3dp"
+                android:text="سبحان الله"
                 android:textColor="@color/colorAccent2"
                 android:textSize="30sp"
-                android:text="سبحان الله"
                 android:textStyle="bold" />
 
             <TextView
@@ -86,7 +116,7 @@
                     android:fontFamily="@font/tajawal_light"
                     android:text="العدد الكلي"
                     android:textColor="@color/colorAccent2"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/total"
@@ -96,7 +126,7 @@
                     android:fontFamily="@font/tajawal_light"
                     android:text="33"
                     android:textColor="@color/colorAccent2"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -116,7 +146,7 @@
                     android:fontFamily="@font/tajawal_light"
                     android:text="دورة"
                     android:textColor="@color/colorAccent2"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/dawra"
@@ -127,7 +157,7 @@
                     android:fontFamily="@font/tajawal_light"
                     android:text="10"
                     android:textColor="@color/colorAccent2"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <RelativeLayout
@@ -153,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/tajawal_extralight"
-                    android:text="0"
+                    android:text="33"
                     android:textColor="@color/colorAccent2"
                     android:textSize="100sp" />
 
@@ -165,29 +195,41 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edded1"
                 android:layout_alignParentEnd="true"
-                android:layout_marginBottom="20dp"
                 android:layout_marginRight="25dp"
+                android:layout_marginBottom="20dp"
                 android:contentDescription="Reset the number"
                 android:src="@drawable/reset_icon"
                 app:backgroundTint="@color/colorSecondary2"
                 app:borderWidth="0dp" />
         </RelativeLayout>
     </ScrollView>
+
     <FrameLayout
         android:id="@+id/overlayLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#E6000000"
         android:visibility="gone">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="20sp"
-            android:text="وضع توفير الطاقة \n\n اي نقرة على الشاشة سوف تحتسب \n\n\n\n اضغط مطولا للخروج "
-            android:gravity="center"
             android:fontFamily="@font/tajawal_light"
-            android:textColor="#80FFFFFF"/>
+            android:gravity="center"
+            android:text="وضع توفير الطاقة \n\n اي نقرة على الشاشة سوف تحتسب"
+            android:textColor="#80FFFFFF"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:background="@android:color/transparent"
+            android:contentDescription="Close overlay"
+            android:padding="20dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
     </FrameLayout>
 
 </RelativeLayout>

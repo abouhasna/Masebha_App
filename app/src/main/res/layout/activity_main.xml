@@ -1,44 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary1"
-    android:id="@+id/main_layout"
     tools:context="com.bestandroidaboudemaybas.masebha.MainActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:titleTextColor="@color/white"
-        app:title=""
+        android:background="#3C8A40"
         android:paddingRight="10dp"
-        android:background="@color/colorToolbar1">
+        app:contentInsetStart="0dp"
+        app:title=""
+        app:titleTextColor="@color/white">
+
         <ImageButton
             android:id="@+id/color_picker_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@color/colorToolbar1"
-
-            android:padding="8dp"
             android:layout_margin="0dp"
-            android:src="@drawable/color_picker_icon"
-            android:contentDescription="Change App colors" />
+
+            android:background="#00000000"
+            android:contentDescription="Change App colors"
+            android:padding="8dp"
+            android:src="@drawable/settings_icon" />
+
+        <ImageButton
+            android:id="@+id/reset_all_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="0dp"
+            android:background="#00000000"
+            android:contentDescription="Reset all counts"
+            android:padding="8dp"
+            android:src="@drawable/reset_all_button" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_margin="0dp"
+            android:layout_marginLeft="0dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rotation="-51"
+                android:src="@drawable/ps_flag"
+                android:translationX="-30px"
+                android:translationY="-30px" />
+        </RelativeLayout>
+
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:src="@drawable/icon_islamic_arabic_vector"/>
+            android:src="@drawable/icon_islamic_arabic_vector"
+            android:translationX="-60px" />
+
+
     </androidx.appcompat.widget.Toolbar>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
     <RelativeLayout
@@ -46,18 +82,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
-            android:contentDescription="Add zeker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            app:backgroundTint="#FFFFFF"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="Add zeker"
             android:elevation="0dp"
-            app:srcCompat="@drawable/add_icon"/>
+            app:backgroundTint="#FFFFFF"
+            app:srcCompat="@drawable/add_icon" />
+
         <LinearLayout
             android:id="@+id/total_layout"
             android:layout_width="wrap_content"
@@ -66,19 +104,19 @@
             android:layout_marginLeft="20dp"
             android:elevation="3dp"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             android:paddingTop="10dp"
+            android:paddingRight="5dp"
             android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/majmu3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:fontFamily="@font/tajawal_regular"
                 android:textColor="@color/colorAccent1"
-                android:layout_centerVertical="true"
 
                 android:textSize="20sp" />
 
@@ -86,14 +124,13 @@
                 android:id="@+id/majmu3_static"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:fontFamily="@font/tajawal_bold"
                 android:text="المجموع :"
                 android:textColor="@color/colorAccent1"
-                android:layout_centerVertical="true"
                 android:textSize="20sp" />
         </LinearLayout>
 
     </RelativeLayout>
-
 
 </RelativeLayout>
