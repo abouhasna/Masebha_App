@@ -59,7 +59,7 @@ public class MainActivity2 extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView currentNumber;
 
-    private FloatingActionButton resetButton;
+    private ImageButton resetButton;
 
 
     private GradientDrawable strokDrawable;
@@ -70,6 +70,7 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     private FrameLayout overlayLayout;
+    private FrameLayout overlayProgress;
     private ImageButton closeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ public class MainActivity2 extends AppCompatActivity {
         currentNumber = findViewById(R.id.current_number);
         resetButton = findViewById(R.id.reset);
         overlayLayout = findViewById(R.id.overlayLayout);
+        overlayProgress = findViewById(R.id.overlayProgress);
         closeButton = findViewById(R.id.close_button);
         modeToggle = findViewById(R.id.toggle_mode_button);
 
@@ -115,12 +117,12 @@ public class MainActivity2 extends AppCompatActivity {
         jalseNumber = 0;
 
 
-        progressBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressUpdate();
-            }
-        });
+//        progressBar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                progressUpdate();
+//            }
+//        });
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,22 +163,23 @@ public class MainActivity2 extends AppCompatActivity {
                 progressUpdate();
             }
         });
-//        overlayLayout.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                overlayLayout.setVisibility(View.GONE);
-//                return false;
-//            }
-//        });
+        overlayProgress.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                progressUpdate();
+            }
+        });
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 overlayLayout.setVisibility(View.GONE);
+                overlayProgress.setVisibility(View.VISIBLE);
             }
         });
         modeToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                overlayProgress.setVisibility(View.GONE);
                 overlayLayout.setVisibility(View.VISIBLE);
             }
         });
@@ -321,9 +324,7 @@ public class MainActivity2 extends AppCompatActivity {
         toolbar.setBackgroundColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736")));
 //        btnToggleVibration.setBackgroundColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736")));
         currentNumber.setTextColor(sharedPreferences.getInt("progressTextSelectedColor", Color.WHITE));
-        resetButton.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736"))));
         ringDrawable.setColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736")));
-        resetButton.setColorFilter(sharedPreferences.getInt("resetAccentSelectedColor",Color.parseColor("#DCDCDC")));
         ringAccentDrawable.setColor(sharedPreferences.getInt("resetAccentSelectedColor", Color.parseColor("#DCDCDC")));
     }
 

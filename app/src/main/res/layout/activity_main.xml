@@ -5,20 +5,23 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary1"
+    android:background="#20242A"
+    android:fitsSystemWindows="true"
     tools:context="com.bestandroidaboudemaybas.masebha.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#3C8A40"
-        android:paddingRight="10dp"
-        app:contentInsetStart="0dp"
-        app:title=""
-        app:titleTextColor="@color/white">
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:gravity="center"-->
+<!--        android:textAlignment="center"-->
+<!--        android:background="#20242A"-->
+<!--        android:paddingRight="10dp"-->
+<!--        app:contentInsetStart="0dp"-->
+<!--        app:title=""-->
+<!--        app:titleTextColor="@color/white">-->
 
-        <ImageButton
+ <!--       <ImageButton
             android:id="@+id/color_picker_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,9 +31,9 @@
             android:background="#00000000"
             android:contentDescription="Change App colors"
             android:padding="8dp"
-            android:src="@drawable/settings_icon" />
+            android:src="@drawable/settings_icon" />-->
 
-        <ImageButton
+<!--        <ImageButton
             android:id="@+id/reset_all_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,9 +42,9 @@
             android:background="#00000000"
             android:contentDescription="Reset all counts"
             android:padding="8dp"
-            android:src="@drawable/reset_all_button" />
+            android:src="@drawable/reset_all_button" />-->
 
-        <RelativeLayout
+<!--        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
@@ -55,29 +58,87 @@
                 android:src="@drawable/ps_flag"
                 android:translationX="-30px"
                 android:translationY="-30px" />
-        </RelativeLayout>
+        </RelativeLayout>-->
 
 
-        <ImageView
+  <!--      <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:src="@drawable/icon_islamic_arabic_vector"
             android:translationX="-60px" />
+-->
 
-
-    </androidx.appcompat.widget.Toolbar>
+<!--    </androidx.appcompat.widget.Toolbar>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
+        android:layout_above="@id/bottom_bar"
+        android:paddingTop="20dp"
         android:clipToPadding="false"
         tools:ignore="SpeakableTextPresentCheck" />
 
-
     <RelativeLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#20242A"
+        android:paddingVertical="5dp">
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/reset_all_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="Reset"
+            android:layout_marginRight="50dp"
+            android:layout_toStartOf="@+id/fab"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
+            app:tint="@null"
+            app:srcCompat="@drawable/reset_all_button"
+            app:backgroundTint="#20242A"
+            app:fabSize="normal"
+            app:maxImageSize="35dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="Add"
+            app:srcCompat="@drawable/add_icon"
+            app:tint="@null"
+            app:backgroundTint="#43B849"
+            app:fabCustomSize="72dp"
+            app:shapeAppearance="@style/Widget.Material3.CircularProgressIndicator"
+            app:maxImageSize="40dp"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/color_picker_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="Reset"
+            android:layout_marginStart="50dp"
+            android:layout_toEndOf="@+id/fab"
+            app:tint="@null"
+            app:srcCompat="@drawable/settings_icon"
+            app:backgroundTint="#20242A"
+            app:fabSize="normal"
+            app:maxImageSize="35dp"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"/>
+
+    </RelativeLayout>
+
+   <!-- <RelativeLayout
         android:id="@+id/bottom_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,7 +157,9 @@
             app:backgroundTint="#FFFFFF"
             app:srcCompat="@drawable/add_icon" />
 
-        <LinearLayout
+
+
+       &lt;!&ndash; <LinearLayout
             android:id="@+id/total_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -130,7 +193,7 @@
                 android:textColor="@color/colorAccent1"
                 android:textSize="20sp" />
         </LinearLayout>
-
-    </RelativeLayout>
+&ndash;&gt;
+    </RelativeLayout>-->
 
 </RelativeLayout>

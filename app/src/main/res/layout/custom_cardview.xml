@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardBackgroundColor="@color/colorCard"
+    app:cardBackgroundColor="#000000"
     app:cardCornerRadius="11dp"
     app:cardElevation="4dp"
     android:id="@+id/custom_card">
@@ -14,7 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:paddingRight="8dp"
+        android:paddingVertical="11dp"
+        android:paddingLeft="8dp">
 
 
         <ImageView
@@ -38,18 +40,18 @@
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:text="سبحان الله"
-                android:fontFamily="@font/tajawal_light"
+                android:fontFamily="@font/tajawal_medium"
                 android:textColor="@color/colorCardAccent" />
 
             <TextView
                 android:id="@+id/descriptionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:textSize="14sp"
-                android:textColor="@color/colorCardAccent"
+                android:textColor="#DFE0E0"
                 android:text="عدد التسبيح: 200"
-                android:fontFamily="@font/tajawal_light"
-                android:layout_marginTop="8dp" />
+                android:fontFamily="@font/tajawal_regular"/>
         </LinearLayout>
 
     </LinearLayout>

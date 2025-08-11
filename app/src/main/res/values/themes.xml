@@ -2,7 +2,6 @@
 
     <style name="Base.Theme.MasebhaApp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor">#000000</item>
-
     </style>
 
 
