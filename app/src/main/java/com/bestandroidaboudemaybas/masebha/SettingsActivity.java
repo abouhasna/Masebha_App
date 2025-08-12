@@ -1,6 +1,7 @@
 package com.bestandroidaboudemaybas.masebha;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         totalLayout = findViewById(R.id.total_layout);
         drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setColor(Color.parseColor("#20242A"));
+        drawable.setColor(Color.parseColor("#43B849"));
         drawable.setCornerRadius(40);
         totalLayout.setBackground(drawable);
         TextView majmu3Text = findViewById(R.id.majmu3);
@@ -88,6 +89,15 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+            Preference advancedSettings = findPreference("advanced_settings");
+            if (advancedSettings != null) {
+                advancedSettings.setOnPreferenceClickListener(preference -> {
+                    Intent intent = new Intent(getActivity(), ColorPickerActivity.class);
+                    startActivity(intent);
+                    return true;
+                });
+            }
 
             ListPreference themePreference = findPreference("theme");
             assert themePreference != null;

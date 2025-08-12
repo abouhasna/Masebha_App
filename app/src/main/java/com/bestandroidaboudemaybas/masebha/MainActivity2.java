@@ -325,7 +325,7 @@ public class MainActivity2 extends AppCompatActivity {
 //        btnToggleVibration.setBackgroundColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736")));
         currentNumber.setTextColor(sharedPreferences.getInt("progressTextSelectedColor", Color.WHITE));
         ringDrawable.setColor(sharedPreferences.getInt("resetSelectedColor", Color.parseColor("#009736")));
-        ringAccentDrawable.setColor(sharedPreferences.getInt("resetAccentSelectedColor", Color.parseColor("#DCDCDC")));
+        ringAccentDrawable.setColor(sharedPreferences.getInt("resetAccentSelectedColor", Color.parseColor("#F0F0F0")));
     }
 
     @Override

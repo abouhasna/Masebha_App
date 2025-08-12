@@ -18,4 +18,7 @@
     <color name="colorCard">#2B3038</color>
     <color name="colorCardAccent">#FFFFFF</color>
 
+    <color name="pref_title_color">#FFFFFF</color> <!-- Gold -->
+    <color name="pref_summary_color">#A09F9F</color> <!-- Gray -->
+
 </resources>

@@ -43,13 +43,21 @@
         android:title="ألوان التطبيق"
         android:entries="@array/theme_entries"
         android:entryValues="@array/theme_values"
-        android:defaultValue="theme1" />
+        android:defaultValue="theme1"
+        android:icon="@drawable/themes"/>
     <SwitchPreference
         android:key="default_sound"
         android:title="صوت التسبيح"
-        android:defaultValue="false" />
+        android:defaultValue="false"
+        android:icon="@drawable/sound"/>
     <SwitchPreference
         android:key="default_vibration"
         android:title="اهتزاز عند كل دورة"
-        android:defaultValue="true" />
+        android:defaultValue="true"
+        android:icon="@drawable/vibration"/>
+    <Preference
+        android:key="advanced_settings"
+        android:title="إعدادات متقدمة"
+        android:summary="اختيار الألوان بشكل محترف"
+        android:icon="@drawable/advanced_themes"/>
 </PreferenceScreen>

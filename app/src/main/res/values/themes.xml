@@ -5,6 +5,11 @@
     </style>
 
 
-    <style name="Theme.MasebhaApp" parent="Base.Theme.MasebhaApp"/>
+    <style name="Theme.MasebhaApp" parent="Base.Theme.MasebhaApp" />
+
+    <style name="CustomPreferenceTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textColorPrimary">@color/pref_title_color</item>
+        <item name="android:textColorSecondary">@color/pref_summary_color</item>
+    </style>
 
 </resources>

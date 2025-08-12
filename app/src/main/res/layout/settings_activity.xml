@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="#202020">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -18,7 +19,7 @@
         android:id="@+id/settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"/>
+        android:background="#202020"/>
 
     <LinearLayout
         android:id="@+id/total_layout"
@@ -34,7 +35,7 @@
         android:paddingBottom="10dp"
         android:textColor="@color/white"
         android:layout_marginTop="30dp"
-        android:background="#20242A">
+        android:background="#43B849">
 
         <TextView
             android:id="@+id/majmu3"
