@@ -198,6 +198,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                             editedZeker.put("name", name);
                                             editedZeker.put("total", Integer.parseInt(tesbihNumber));
                                             editedZeker.put("dawra", Integer.parseInt(number));
+                                            myDB = DatabaseManager.getDatabase(context);
                                             myDB.update("zeker", editedZeker, "_id=?", new String[] { String.valueOf(cardData.getId()) });
                                             DatabaseManager.closeDatabase();
 
