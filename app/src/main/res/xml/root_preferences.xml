@@ -1,42 +1,3 @@
-<!--<PreferenceScreen-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto">-->
-
-<!--    <PreferenceCategory-->
-<!--        app:title="@string/messages_header">-->
-
-<!--        <EditTextPreference-->
-<!--            app:key="signature"-->
-<!--            app:title="@string/signature_title"-->
-<!--            app:useSimpleSummaryProvider="true"/>-->
-
-<!--        <ListPreference-->
-<!--            app:key="reply"-->
-<!--            app:title="@string/reply_title"-->
-<!--            app:entries="@array/reply_entries"-->
-<!--            app:entryValues="@array/reply_values"-->
-<!--            app:defaultValue="reply"-->
-<!--            app:useSimpleSummaryProvider="true"/>-->
-
-<!--    </PreferenceCategory>-->
-
-<!--    <PreferenceCategory-->
-<!--        app:title="@string/sync_header">-->
-
-<!--        <SwitchPreferenceCompat-->
-<!--            app:key="sync"-->
-<!--            app:title="@string/sync_title"/>-->
-
-<!--        <SwitchPreferenceCompat-->
-<!--            app:key="attachment"-->
-<!--            app:title="@string/attachment_title"-->
-<!--            app:summaryOn="@string/attachment_summary_on"-->
-<!--            app:summaryOff="@string/attachment_summary_off"-->
-<!--            app:dependency="sync"/>-->
-
-<!--    </PreferenceCategory>-->
-
-<!--</PreferenceScreen>-->
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
         android:key="theme"
@@ -45,6 +6,11 @@
         android:entryValues="@array/theme_values"
         android:defaultValue="theme1"
         android:icon="@drawable/themes"/>
+    <Preference
+        android:key="advanced_settings"
+        android:title="إعدادات متقدمة"
+        android:summary="اختيار الألوان بشكل محترف"
+        android:icon="@drawable/advanced_themes"/>
     <SwitchPreference
         android:key="default_sound"
         android:title="صوت التسبيح"
@@ -55,9 +21,24 @@
         android:title="اهتزاز عند كل دورة"
         android:defaultValue="true"
         android:icon="@drawable/vibration"/>
+    <SwitchPreference
+        android:key="save_counts"
+        android:title="اكمال الدورة"
+        android:summary="اكمال الدورة غير المنتهية في الجلسة الجديدة"
+        android:defaultValue="true"
+        android:icon="@drawable/save_svgrepo_com"/>
+
+    <ListPreference
+        android:key="font_size"
+        android:title="حجم الخط"
+        android:summary="تغيير حجم خط اسم الذكر"
+        android:entries="@array/font_size_entries"
+        android:entryValues="@array/font_size_values"
+        android:defaultValue="30"
+        android:icon="@drawable/text_size_svgrepo_com"/>
     <Preference
-        android:key="advanced_settings"
-        android:title="إعدادات متقدمة"
-        android:summary="اختيار الألوان بشكل محترف"
-        android:icon="@drawable/advanced_themes"/>
+        android:key="reset_all"
+        android:title="تصفير الكل"
+        android:summary="إعادة عدد جميع الأذكار إلى الصفر"
+        android:icon="@drawable/reset_all_button"/>
 </PreferenceScreen>

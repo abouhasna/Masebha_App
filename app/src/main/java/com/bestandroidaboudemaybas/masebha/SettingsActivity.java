@@ -1,6 +1,7 @@
 package com.bestandroidaboudemaybas.masebha;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -10,10 +11,14 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -89,6 +94,54 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+            Preference resetPreference = findPreference("reset_all");
+            if(resetPreference != null)
+                 resetPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(@NonNull Preference preference) {
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.reset_all_dialog, null);
+                    dialogBuilder.setView(dialogView);
+                    AlertDialog alertDialog = dialogBuilder.create();
+
+
+                    Button tesfir = dialogView.findViewById(R.id.tesfir);
+                    Button cancelReset = dialogView.findViewById(R.id.cancel_reset);
+
+
+
+                    tesfir.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            SQLiteDatabase myDB = getActivity().openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
+
+                            // Reset all totals to 0 in the database
+                            ContentValues resetValues = new ContentValues();
+                            resetValues.put("total", 0);
+                            myDB.update("zeker", resetValues, null, null);
+//                for (CardData card : cardDataList) {
+//                    card.setDescription("عدد التسبيح : 0");
+//                }
+
+//                adapter.notifyDataSetChanged();
+                            myDB.close();
+                            alertDialog.dismiss();
+                        }
+                    });
+                    cancelReset.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                        }
+                    });
+
+                    alertDialog.show();
+                    return true;
+                }
+            });
 
             Preference advancedSettings = findPreference("advanced_settings");
             if (advancedSettings != null) {
@@ -183,4 +236,5 @@ public class SettingsActivity extends AppCompatActivity {
             });
         }
     }
+
 }

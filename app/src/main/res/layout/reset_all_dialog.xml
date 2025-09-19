@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/alert_message"
                 android:layout_marginRight="5dp"
-                android:backgroundTint="#23AE29"
+                android:backgroundTint="#CE0101"
                 android:fontFamily="@font/tajawal_light"
                 android:textSize="15sp"
                 android:text="تصفير الكل"

@@ -13,4 +13,19 @@
         <item>theme4</item>
         <item>theme5</item>
     </string-array>
+    <string-array name="font_size_entries">
+        <item>صغير جداً</item>
+        <item>صغير</item>
+        <item>متوسط</item>
+        <item>كبير</item>
+        <item>كبير جداً</item>
+    </string-array>
+
+    <string-array name="font_size_values">
+        <item>14</item>
+        <item>24</item>
+        <item>30</item>
+        <item>36</item>
+        <item>42</item>
+    </string-array>
 </resources>

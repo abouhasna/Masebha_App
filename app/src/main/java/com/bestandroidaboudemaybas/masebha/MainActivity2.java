@@ -26,13 +26,13 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.util.TypedValue;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class MainActivity2 extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
-    private SharedPreferences soundSharedPreferences;
+    private SharedPreferences appPreferences;
 
     private SQLiteDatabase myDB;
     private CardData cardData;
@@ -86,7 +86,19 @@ public class MainActivity2 extends AppCompatActivity {
         setupToolbar();
 
         sharedPreferences = getSharedPreferences("ColorsPrefs", Context.MODE_PRIVATE);
-        soundSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        appPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String fontSize = appPreferences.getString("font_size", "30");
+        int fontSizeValue = Integer.parseInt(fontSize);
+
+//        // Optional: Scale other text elements proportionally
+//        float scaleFactor = fontSizeValue / 30.0f; // 30 is your default size
+//        adadkulli1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * scaleFactor);
+//        total.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * scaleFactor);
+//        dawratxt.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * scaleFactor);
+//        dawra.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * scaleFactor);
+//        // Keep currentNumber large but scaled
+//        currentNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100 * scaleFactor);
 
         background = findViewById(R.id.rl);
         zekerName = findViewById(R.id.zekerName);
@@ -109,9 +121,13 @@ public class MainActivity2 extends AppCompatActivity {
         ringAccentDrawable = (GradientDrawable) ringLayerDrawable.getDrawable(0);
 
         zekerName.setText(cardData.getTitle());
+        zekerName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeValue);
         total.setText(cardData.getDescription());
         dawra.setText("0");
-        currentNumber.setText(String.valueOf(Integer.parseInt(cardData.getDescription()) % cardData.getDawra()));
+        if(appPreferences.getBoolean("save_counts", true))
+            currentNumber.setText(String.valueOf(Integer.parseInt(cardData.getDescription()) % cardData.getDawra()));
+        else
+            currentNumber.setText("0");
         progressBar.setMax(10000);
         progressBar.setProgress((Integer.parseInt(currentNumber.getText().toString()) * 10000) / cardData.getDawra());
         jalseNumber = 0;
@@ -130,7 +146,7 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
-        isVibrationEnabled = soundSharedPreferences.getBoolean("default_vibration", true);
+        isVibrationEnabled = appPreferences.getBoolean("default_vibration", true);
 //        btnToggleVibration = findViewById(R.id.color_picker_button);
 //        if (isVibrationEnabled) {
 //            btnToggleVibration.setImageResource(R.drawable.vibration_icon_on);
@@ -145,7 +161,7 @@ public class MainActivity2 extends AppCompatActivity {
 //        });
 
         mediaPlayer = MediaPlayer.create(this, R.raw.click);
-        isSoundEnabled = soundSharedPreferences.getBoolean("default_sound", false);
+        isSoundEnabled = appPreferences.getBoolean("default_sound", false);
 //        soundToggle = findViewById(R.id.toggle_sound_button);
 //        if (isSoundEnabled) {
 //            soundToggle.setImageResource(R.drawable.sound_on);
@@ -279,23 +295,6 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
 
-//    private void toggleVibration() {
-//        isVibrationEnabled = !isVibrationEnabled;
-//        if (isVibrationEnabled) {
-//            btnToggleVibration.setImageResource(R.drawable.vibration_icon_on);
-//        } else {
-//            btnToggleVibration.setImageResource(R.drawable.vibration_icon_off);
-//        }
-//    }
-
-//    private void toggleSound() {
-//        isSoundEnabled = !isSoundEnabled;
-//        if (isSoundEnabled) {
-//            soundToggle.setImageResource(R.drawable.sound_on);
-//        } else {
-//            soundToggle.setImageResource(R.drawable.sound_off);
-//        }
-//    }
 
     @Override
     protected void onPause() {

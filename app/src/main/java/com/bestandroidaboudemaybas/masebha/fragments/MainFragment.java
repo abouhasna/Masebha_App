@@ -49,8 +49,6 @@ public class MainFragment extends Fragment {
     private ImageView imageView;
 
     private FloatingActionButton fab;
-    private FloatingActionButton resetAllButton;
-    private FloatingActionButton colorPickerButton;
 
 
     private int cardSelectedColor;
@@ -68,7 +66,6 @@ public class MainFragment extends Fragment {
     private RadioButton radioText;
     private RadioButton radioTools;
     private RadioButton radioToolsAccent;
-    private RelativeLayout buttonsLayout;
     private TextView enteredHexColor;
     private Button selectedHexColor;
     @Override
@@ -87,8 +84,6 @@ public class MainFragment extends Fragment {
         background = rootView.findViewById(R.id.background);
 
         fab = rootView.findViewById(R.id.fab);
-        resetAllButton = rootView.findViewById(R.id.reset_all_button);
-        colorPickerButton = rootView.findViewById(R.id.color_picker_button);
 
         radioCard = rootView.findViewById(R.id.radioCard);
         radioBackground = rootView.findViewById(R.id.radioBackground);
@@ -97,7 +92,6 @@ public class MainFragment extends Fragment {
         radioToolsAccent = rootView.findViewById(R.id.radioToolsAccent);
         Button saveButton = rootView.findViewById(R.id.saveButton);
         Button returnDefault = rootView.findViewById(R.id.returnDefault);
-        buttonsLayout = rootView.findViewById(R.id.buttonsLayout);
         selectedHexColor = rootView.findViewById(R.id.selectedHexColor);
         enteredHexColor = rootView.findViewById(R.id.enteredHexColor);
 
@@ -132,10 +126,6 @@ public class MainFragment extends Fragment {
                 textView2.setTextColor(textSelectedColor);
                 imageView.setColorFilter(textSelectedColor);
 
-                resetAllButton.setColorFilter(toolsAccentSelectedColor);
-                colorPickerButton.setColorFilter(toolsAccentSelectedColor);
-                resetAllButton.setBackgroundTintList(ColorStateList.valueOf(backgroundSelectedColor));
-                colorPickerButton.setBackgroundTintList(ColorStateList.valueOf(backgroundSelectedColor));
 
                 fab.setBackgroundTintList(ColorStateList.valueOf(toolsSelectedColor));
                 fab.setColorFilter(textSelectedColor);
@@ -165,8 +155,6 @@ public class MainFragment extends Fragment {
                 } else if (radioBackground.isChecked()) {
                     backgroundSelectedColor = color;
                     background.setBackgroundColor(backgroundSelectedColor);
-                    resetAllButton.setBackgroundTintList(ColorStateList.valueOf(backgroundSelectedColor));
-                    colorPickerButton.setBackgroundTintList(ColorStateList.valueOf(backgroundSelectedColor));
                 } else if (radioText.isChecked()) {
                     textSelectedColor = color;
                     TextView textView = cardLayout.findViewById(R.id.titleTextView);
@@ -181,8 +169,6 @@ public class MainFragment extends Fragment {
                     fab.setBackgroundTintList(ColorStateList.valueOf(toolsSelectedColor));
                 } else if (radioToolsAccent.isChecked()) {
                     toolsAccentSelectedColor = color;
-                    resetAllButton.setColorFilter(toolsAccentSelectedColor);
-                    colorPickerButton.setColorFilter(toolsAccentSelectedColor);
                 }
                 selectedHexColor.setText(String.format("#%06X", (0xFFFFFF & color)));
             }
@@ -306,10 +292,6 @@ public class MainFragment extends Fragment {
         textView2.setTextColor(textSelectedColor);
         imageView.setColorFilter(textSelectedColor);
 
-        resetAllButton.setColorFilter(toolsAccentSelectedColor);
-        colorPickerButton.setColorFilter(toolsAccentSelectedColor);
-        resetAllButton.setBackgroundTintList(ColorStateList.valueOf(backgroundSelectedColor));
-        colorPickerButton.setBackgroundTintList(ColorStateList.valueOf(backgroundSelectedColor));
 
         fab.setBackgroundTintList(ColorStateList.valueOf(toolsSelectedColor));
         fab.setColorFilter(textSelectedColor);

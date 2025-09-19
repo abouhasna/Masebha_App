@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/alert_message"
                 android:layout_marginRight="5dp"
-                android:backgroundTint="#23AE29"
+                android:backgroundTint="#C70000"
                 android:fontFamily="@font/tajawal_light"
                 android:textSize="15sp"
                 android:text="تصفير"
@@ -66,7 +66,7 @@
             android:fontFamily="@font/tajawal_bold"
             android:textSize="15sp"
             android:text="تصفير الكل"
-            android:textColor="#000000"
+            android:textColor="#BD0202"
             android:layout_centerVertical="true" />
     </RelativeLayout>
 </LinearLayout>

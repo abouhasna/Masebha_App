@@ -70,7 +70,9 @@
         android:gravity="right"
         android:textColorHint="#000000"
         app:boxStrokeColor="#000000"
-        app:hintTextColor="#000000">
+        app:hintTextColor="#000000"
+        app:counterEnabled="true"
+        app:counterMaxLength="7">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/adadltesbih"
@@ -83,6 +85,7 @@
             android:inputType="number"
             android:textColor="#000000"
             android:textColorHint="#000000"
+            android:maxLength="7"
             android:textSize="20dp" />
     </com.google.android.material.textfield.TextInputLayout>
 

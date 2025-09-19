@@ -35,6 +35,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -49,12 +50,10 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     private List<CardData> cardDataList;
     private ImageButton fab;
     private Integer totalNumber;
-//    private Toolbar toolbar; TODO
-    private ImageButton colorPickerButton;
-    private ImageButton resetAllButton;
+    private Toolbar toolbar;
+    private ImageButton settings;
     private SharedPreferences sharedPreferences;
     private RelativeLayout mainLayout;
-    private RelativeLayout bottomBar;
     private LinearLayout totalLayout;
     private AlertDialog.Builder dialogBuilder;
     private LayoutInflater inflater;
@@ -80,14 +79,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         sharedPreferences = getSharedPreferences("ColorsPrefs", Context.MODE_PRIVATE);
 
         mainLayout = findViewById(R.id.main_layout);
-        bottomBar = findViewById(R.id.bottom_bar);
-//        totalLayout = findViewById(R.id.total_layout); TODO
         fab = findViewById(R.id.fab);
         recyclerView = findViewById(R.id.recyclerView);
-        colorPickerButton = findViewById(R.id.color_picker_button);
-        resetAllButton = findViewById(R.id.reset_all_button);
-//        majmu3Static = findViewById(R.id.majmu3_static); TODO
-//        majmu3 = findViewById(R.id.majmu3); TODO
+        settings = findViewById(R.id.settings_button);
 
         dialogBuilder = new AlertDialog.Builder(this);
         inflater = this.getLayoutInflater();
@@ -108,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
         drawable = new GradientDrawable();
 
-//        setupToolbar();
+        setupToolbar();
 
 
         boolean databaseExists = doesDatabaseExist(this, "masebha.db");
@@ -119,35 +113,29 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
 
 
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                if(dy>0){
-//                    fab.setVisibility(View.INVISIBLE);
-//                    totalLayout.setVisibility(View.INVISIBLE);
-//                }
-//                else if(dy<0){
-//                    fab.setVisibility(View.VISIBLE);
-//                    totalLayout.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        }); TODO
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy>0){
+                    fab.setVisibility(View.INVISIBLE);
+//                    totalLayout.setVisibility(View.INVISIBLE);TODO
+                }
+                else if(dy<0){
+                    fab.setVisibility(View.VISIBLE);
+//                    totalLayout.setVisibility(View.VISIBLE);TODO
+                }
+            }
+        });
 
-        colorPickerButton.setOnClickListener(new View.OnClickListener() {
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, ColorPickerActivity.class);
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
-        resetAllButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayResetDialog();
-            }
-        });
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,11 +199,11 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     }
 
 
-//    private void setupToolbar() {
-//        toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("");
-//    }TODO
+    private void setupToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
+    }
 
     private boolean doesDatabaseExist(Context context, String dbName) {
         File dbFile = context.getDatabasePath(dbName);
@@ -299,10 +287,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
                     String description = "عدد التسبيح : " + Integer.parseInt(adadltesbih);
                     CardData newCard = new CardData((int) insertedRowId, name, description, Integer.parseInt(number));
                     cardDataList.add(newCard);
-//                    if(Integer.parseInt(adadltesbih) != 0){
-//                        int newTotal = Integer.parseInt(majmu3.getText().toString()) + Integer.parseInt(adadltesbih);
-//                        majmu3.setText(String.valueOf(newTotal));
-//                    } TODO
 
                     adapter.notifyItemInserted(cardDataList.size() - 1);
                 }
@@ -349,7 +333,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
                 // Reset the total number in the UI
                 totalNumber = 0;
-//                majmu3.setText(String.valueOf(totalNumber)); TODO
 
                 adapter.notifyDataSetChanged();
                 myDB.close();
@@ -405,9 +388,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         DatabaseManager.closeDatabase();
 
 
-//        majmu3.setText(totalNumber.toString()); TODO
-
-
 
 
 
@@ -418,21 +398,13 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
     private void setColors() {
         adapter.changeCardColors(sharedPreferences.getInt("cardSelectedColor", Color.BLACK),sharedPreferences.getInt("textSelectedColor", Color.WHITE));
-//        toolbar.setBackgroundColor(sharedPreferences.getInt("toolsSelectedColor", Color.parseColor("#009736")));
+        toolbar.setBackgroundColor(sharedPreferences.getInt("toolsSelectedColor", Color.parseColor("#009736")));
         mainLayout.setBackgroundColor(sharedPreferences.getInt("backgroundSelectedColor", Color.parseColor("#202020")));
-        bottomBar.setBackgroundColor(sharedPreferences.getInt("backgroundSelectedColor", Color.parseColor("#202020")));
-        resetAllButton.setColorFilter(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));
-        colorPickerButton.setColorFilter(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));
-        resetAllButton.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("backgroundSelectedColor", Color.parseColor("#202020"))));
-        colorPickerButton.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("backgroundSelectedColor", Color.parseColor("#202020"))));
+        settings.setColorFilter(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));
+        settings.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("backgroundSelectedColor", Color.parseColor("#202020"))));
 
-//        fab.setBackgroundColor(sharedPreferences.getInt("toolsSelectedColor", Color.parseColor("#009736")));
-//        totalLayout.setBackground(drawable); TODO
         fab.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("toolsSelectedColor",  Color.parseColor("#009736"))));
-
         fab.setColorFilter(sharedPreferences.getInt("textSelectedColor", Color.WHITE));
-//        majmu3.setTextColor(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));TODO
-//        majmu3Static.setTextColor(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));TODO
     }
 
 
