@@ -17,10 +17,11 @@
         app:titleTextColor="@color/white">
         <ImageButton
             android:id="@+id/reset"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="4dp"
+            android:padding="9dp"
             android:background="@drawable/circle_white_background"
             android:contentDescription="Toggle Vibration"
             android:src="@drawable/reset_icon" />
@@ -32,7 +33,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/rounded_layout_colorpicker"
             android:fontFamily="@font/tajawal_regular"
-            android:padding="4dp"
+            android:padding="7dp"
             android:text="وضع توفير الطاقة"
             android:textColor="@color/colorAccent1"
             android:textSize="20sp"
@@ -217,16 +218,14 @@
         </RelativeLayout>
     </ScrollView>
 
-    <FrameLayout
+    <ImageButton
         android:id="@+id/overlayProgress"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00000000"
-        android:clickable="true"
-        android:focusable="true">
+        android:src="@android:color/transparent" />
 
-    </FrameLayout>
     <FrameLayout
         android:id="@+id/overlayLayout"
         android:layout_width="match_parent"
@@ -240,7 +239,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/tajawal_light"
             android:gravity="center"
-            android:text=" وضع توفير الطاقة \n\n اي نقرة على الشاشة سوف تحتسب \n\nللخروج اضغط على علامة x بالأعلى"
+            android:text=" وضع توفير الطاقة  \n\nللخروج اضغط على علامة x بالأعلى"
             android:textColor="#80FFFFFF"
             android:textSize="20sp" />
 

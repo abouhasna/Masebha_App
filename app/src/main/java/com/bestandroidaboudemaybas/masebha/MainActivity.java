@@ -15,23 +15,25 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,8 +42,12 @@ import java.util.Objects;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemDeletedListener {
     private RecyclerView recyclerView;
@@ -52,13 +58,17 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     private Integer totalNumber;
     private Toolbar toolbar;
     private ImageButton settings;
+    private ImageButton firebaseButton;
     private SharedPreferences sharedPreferences;
     private RelativeLayout mainLayout;
     private LinearLayout totalLayout;
     private AlertDialog.Builder dialogBuilder;
+    private AlertDialog.Builder popupBuilder;
     private LayoutInflater inflater;
     private View dialogView;
+    private View popupView;
     private AlertDialog alertDialog;
+    private AlertDialog popupDialog;
     private EditText editText1;
     private EditText editText2;
     private EditText editText3;
@@ -67,8 +77,13 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     private GradientDrawable drawable;
     private TextView majmu3Static;
     private TextView majmu3;
+    private SharedPreferences firebasePreferences;
 
-
+    private TextView title;
+    private TextView description;
+    private ImageView popupImage;
+    private Button buttonText;
+    private Button cancel;
 
 
     @Override
@@ -77,14 +92,17 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         sharedPreferences = getSharedPreferences("ColorsPrefs", Context.MODE_PRIVATE);
+        firebasePreferences = getSharedPreferences("FireBasePrefs", Context.MODE_PRIVATE);
 
         mainLayout = findViewById(R.id.main_layout);
         fab = findViewById(R.id.fab);
         recyclerView = findViewById(R.id.recyclerView);
         settings = findViewById(R.id.settings_button);
+        firebaseButton = findViewById(R.id.firebase_button);
 
         dialogBuilder = new AlertDialog.Builder(this);
         inflater = this.getLayoutInflater();
+
         dialogView = inflater.inflate(R.layout.add_dialog, null);
         dialogBuilder.setView(dialogView);
         dialogBuilder.setCancelable(false);
@@ -95,13 +113,23 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         addButton    = dialogView.findViewById(R.id.addButton);
         cancelButton = dialogView.findViewById(R.id.cancelButton);
 
+
+        popupView = inflater.inflate(R.layout.popup_dialog, null);
+        dialogBuilder.setView(popupView);
+        dialogBuilder.setCancelable(false);
+        popupDialog = dialogBuilder.create();
+        title = popupView.findViewById(R.id.title);
+        description = popupView.findViewById(R.id.description);
+        popupImage = popupView.findViewById(R.id.popup_image);
+        buttonText = popupView.findViewById(R.id.button_text);
+        cancel = popupView.findViewById(R.id.cancel);
+
         cardDataList = new ArrayList<>();
         adapter = new MyAdapter(cardDataList, this, this,Color.BLACK,Color.WHITE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         drawable = new GradientDrawable();
-
         setupToolbar();
 
 
@@ -111,7 +139,59 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
             fillStaticData();
         }
 
+        firebaseButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, FireBaseActivity.class);
+            startActivity(intent);
+        });
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("masebha").document("6XFdiiVOiKpKz5wF6FUy");
+        docRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String base64Image = documentSnapshot.getString("otherapps");
+                            if (base64Image != null) {
+                                firebasePreferences.edit().putString("otherapps", base64Image).apply();
+                            }
+                        } else {
+                            Log.d("Firestore", "No such document");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception e) {
+                        Log.d("Firestore", "Error getting document: ", e);
+                    }
+                });
+
+
+        DocumentReference popupRef = db.collection("masebha").document("fGgrIztswEzL4Bp9aHh3");
+
+        popupRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                boolean enabled = documentSnapshot.getBoolean("enabled");
+                String title = documentSnapshot.getString("title");
+                String description = documentSnapshot.getString("description");
+                String buttonText = documentSnapshot.getString("buttonText");
+                String buttonUrl = documentSnapshot.getString("buttonLink");
+                String base64Image = documentSnapshot.getString("image");
+                int currentVersion = documentSnapshot.getLong("version").intValue(); // Firestore stores numbers as Long
+
+
+
+                SharedPreferences prefs = getSharedPreferences("FireBasePrefs", MODE_PRIVATE);
+                int lastVersionShown = prefs.getInt("popup_version_shown", 0); // default 0
+
+                if (enabled && currentVersion > lastVersionShown) {
+                    showPopup(title, description, buttonText, buttonUrl, base64Image);
+                    // Save the version that has been shown
+                    prefs.edit().putInt("popup_version_shown", currentVersion).apply();
+                }
+            }
+        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -198,6 +278,38 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
     }
 
+    private void showPopup(String title, String description, String buttonText, String buttonUrl,String base64Image) {
+        if (base64Image != null) {
+            // Decode Base64 → byte[]
+            byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
+
+            // Convert to Bitmap
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+
+            // Show in ImageView
+            popupImage.setImageBitmap(bitmap);
+        }
+
+        this.title.setText(title);
+        this.description.setText(description);
+        this.buttonText.setText(buttonText);
+        popupDialog.show();
+        this.buttonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(buttonUrl));
+                startActivity(browserIntent);
+                popupDialog.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupDialog.dismiss();
+            }
+        });
+
+    }
 
     private void setupToolbar() {
         toolbar = findViewById(R.id.toolbar);

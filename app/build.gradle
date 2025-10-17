@@ -11,8 +11,8 @@ android {
         applicationId "com.bestandroidaboudemaybas.masebha"
         minSdk 23
         targetSdk 35
-        versionCode 19
-        versionName "2.3"
+        versionCode 20
+        versionName "3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,9 +28,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    buildFeatures {
-        compose true
-    }
 }
 
 dependencies {
@@ -41,6 +38,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'com.google.firebase:firebase-firestore:26.0.1'
+    implementation 'androidx.activity:activity:1.10.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

@@ -1,61 +1,69 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
+    android:fillViewport="true"
     android:background="#202020">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:titleTextColor="@color/white"
-        app:title=""
-        android:paddingRight="15dp"
-        android:background="#000000">
-    </androidx.appcompat.widget.Toolbar>
-
-    <FrameLayout
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#202020"/>
 
     <LinearLayout
-        android:id="@+id/total_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:elevation="3dp"
-        android:paddingLeft="5dp"
-        android:paddingTop="10dp"
-        android:paddingRight="5dp"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
 
-        android:paddingBottom="10dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="30dp"
-        android:background="#43B849">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:titleTextColor="@color/white"
+            app:title=""
+            android:paddingRight="15dp"
+            android:background="#000000"/>
 
-        <TextView
-            android:id="@+id/majmu3"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:fontFamily="@font/tajawal_bold"
-            android:textColor="@color/colorAccent2"
-            android:textSize="20sp" />
+            android:background="#202020"/>
 
-        <TextView
-            android:id="@+id/majmu3_static"
+        <LinearLayout
+            android:id="@+id/total_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/tajawal_bold"
-            android:text="المجموع :"
-            android:textColor="@color/colorAccent2"
-            android:textSize="20sp" />
+            android:layout_gravity="center"
+            android:elevation="3dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            android:background="#43B849">
+
+            <TextView
+                android:id="@+id/majmu3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:fontFamily="@font/tajawal_bold"
+                android:textColor="@color/colorAccent2"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/majmu3_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="@font/tajawal_bold"
+                android:text="المجموع :"
+                android:textColor="@color/colorAccent2"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

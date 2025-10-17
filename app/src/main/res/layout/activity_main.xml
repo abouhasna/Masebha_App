@@ -58,6 +58,16 @@
             android:layout_marginBottom="7dp"
             android:src="@drawable/icon_islamic_arabic_vector" />
 
+        <ImageButton
+            android:id="@+id/firebase_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/rounded_layout_colorpicker"
+            android:contentDescription="Announcements"
+            android:padding="4dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_firebase" />
 
     </androidx.appcompat.widget.Toolbar>
 

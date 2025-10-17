@@ -39,9 +39,7 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     private Integer jalseNumber;
-//    private ImageButton btnToggleVibration;
     private TextView modeToggle;
-//    private ImageButton soundToggle;
 
     private boolean isVibrationEnabled;
     private boolean isSoundEnabled;
@@ -70,7 +68,7 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     private FrameLayout overlayLayout;
-    private FrameLayout overlayProgress;
+    private ImageButton overlayProgress;
     private ImageButton closeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +107,10 @@ public class MainActivity2 extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_button);
         currentNumber = findViewById(R.id.current_number);
         resetButton = findViewById(R.id.reset);
-        overlayLayout = findViewById(R.id.overlayLayout);
         overlayProgress = findViewById(R.id.overlayProgress);
         closeButton = findViewById(R.id.close_button);
         modeToggle = findViewById(R.id.toggle_mode_button);
+        overlayLayout = findViewById(R.id.overlayLayout);
 
         strokLayerDrawable = (LayerDrawable) progressBar.getBackground();
         strokDrawable = (GradientDrawable) strokLayerDrawable.getDrawable(0);
@@ -147,38 +145,12 @@ public class MainActivity2 extends AppCompatActivity {
         });
 
         isVibrationEnabled = appPreferences.getBoolean("default_vibration", true);
-//        btnToggleVibration = findViewById(R.id.color_picker_button);
-//        if (isVibrationEnabled) {
-//            btnToggleVibration.setImageResource(R.drawable.vibration_icon_on);
-//        } else {
-//            btnToggleVibration.setImageResource(R.drawable.vibration_icon_off);
-//        }
-//        btnToggleVibration.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                toggleVibration();
-//            }
-//        });
 
         mediaPlayer = MediaPlayer.create(this, R.raw.click);
         isSoundEnabled = appPreferences.getBoolean("default_sound", false);
-//        soundToggle = findViewById(R.id.toggle_sound_button);
-//        if (isSoundEnabled) {
-//            soundToggle.setImageResource(R.drawable.sound_on);
-//        } else {
-//            soundToggle.setImageResource(R.drawable.sound_off);
-//        }
-//        soundToggle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) { toggleSound(); }
-//        });
 
-        overlayLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressUpdate();
-            }
-        });
+
+
         overlayProgress.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -189,13 +161,11 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 overlayLayout.setVisibility(View.GONE);
-                overlayProgress.setVisibility(View.VISIBLE);
             }
         });
         modeToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                overlayProgress.setVisibility(View.GONE);
                 overlayLayout.setVisibility(View.VISIBLE);
             }
         });

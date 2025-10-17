@@ -1,0 +1,103 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#202020">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:titleTextColor="@color/white"
+            app:title=""
+            android:paddingRight="15dp"
+            android:background="#000000">
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/firebase_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="هذه صفحة للتواصل بيننا وبينكم\nسنضع فيها بعض الأخبار والملاحظات\nوستقدمون اقتراحاتكم"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/tajawal_bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp"/>
+
+
+        <!-- Other apps image -->
+        <LinearLayout
+            android:id="@+id/other_apps_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="تطبيقاتنا الأخرى (اضغط على الصورة)"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:fontFamily="@font/tajawal_bold"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/other_apps_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:contentDescription="Other Apps"
+                android:clickable="true"
+                android:focusable="true"/>
+
+        </LinearLayout>
+
+        <!-- Suggestion box -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/suggestion_box"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|start"
+            android:textColorHint="#000000"
+            app:boxStrokeColor="#000000"
+            app:hintTextColor="#000000"
+            app:boxBackgroundColor="@color/white"
+            android:layout_margin="15dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/suggestion_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/tajawal_light"
+                android:hint="اقتراح أو ابلاغ عن مشكلة"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:textSize="20dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ارسال"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+</ScrollView>
