@@ -18,10 +18,19 @@
         android:defaultValue="false"
         android:icon="@drawable/sound"/>
     <SwitchPreference
-        android:key="default_vibration"
+        android:key="vibration_on_tap"
+        android:title="اهتزاز عند كل ضغطة"
+        android:summary="اهتزاز خفيف مع كل تسبيحة"
+        android:defaultValue="false"
+        android:icon="@drawable/vibration"/>
+
+    <SwitchPreference
+        android:key="vibration_on_loop"
         android:title="اهتزاز عند كل دورة"
+        android:summary="اهتزاز قوي عند اكتمال الدورة"
         android:defaultValue="true"
         android:icon="@drawable/vibration"/>
+
     <SwitchPreference
         android:key="save_counts"
         android:title="اكمال الدورة"

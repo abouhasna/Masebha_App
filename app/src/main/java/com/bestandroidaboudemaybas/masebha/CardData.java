@@ -5,14 +5,16 @@ public class CardData {
     private String name;
     private String description;
     private Integer dawra;
+    private long lastOpenedAt;
     public CardData() {
     }
 
-    public CardData(Integer id, String title, String description, Integer dawra) {
+    public CardData(Integer id, String title, String description, Integer dawra, long lastOpenedAt) {
         this.id = id;
         this.name = title;
         this.description = description;
         this.dawra = dawra;
+        this.lastOpenedAt = lastOpenedAt;
     }
 
     public CardData(String name, String description) {
@@ -51,5 +53,9 @@ public class CardData {
     public String getDescription() {
         return description;
     }
+
+    public long getLastOpenedAt() { return lastOpenedAt; }
+
+    public void setLastOpenedAt(long v) { lastOpenedAt = v; }
 }
 

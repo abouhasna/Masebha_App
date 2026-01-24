@@ -139,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
             fillStaticData();
         }
 
+        ensureLastOpenedColumn();
+
         firebaseButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, FireBaseActivity.class);
             startActivity(intent);
@@ -325,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     private void fillStaticData() {
         myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
         myDB.execSQL(
-                "CREATE TABLE IF NOT EXISTS zeker (_id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(200), total INTEGER, dawra INTEGER,position INTEGER)"
+                "CREATE TABLE IF NOT EXISTS zeker (_id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(200), total INTEGER, dawra INTEGER,position INTEGER, last_opened_at INTEGER NOT NULL DEFAULT 0)"
         );
         ContentValues firstZeker = new ContentValues();
         firstZeker.put("name", "سبحان الله");
@@ -354,7 +356,26 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         myDB.close();
     }
 
+    private void ensureLastOpenedColumn() {
 
+        myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
+
+        boolean exists = false;
+        Cursor c = myDB.rawQuery("PRAGMA table_info(zeker)", null);
+        while (c.moveToNext()) {
+            String colName = c.getString(c.getColumnIndexOrThrow("name"));
+            if ("last_opened_at".equals(colName)) {
+                exists = true;
+                break;
+            }
+        }
+        c.close();
+
+        if (!exists) {
+            myDB.execSQL("ALTER TABLE zeker ADD COLUMN last_opened_at INTEGER NOT NULL DEFAULT 0");
+        }
+        myDB.close();
+    }
 
 
 
@@ -397,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
                 if (insertedRowId != -1) {
 
                     String description = "عدد التسبيح : " + Integer.parseInt(adadltesbih);
-                    CardData newCard = new CardData((int) insertedRowId, name, description, Integer.parseInt(number));
+                    CardData newCard = new CardData((int) insertedRowId, name, description, Integer.parseInt(number), 0);
                     cardDataList.add(newCard);
 
                     adapter.notifyItemInserted(cardDataList.size() - 1);
@@ -469,7 +490,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
 
 
     private void loadData() {
-
         cardDataList.clear();
         totalNumber = 0;
 
@@ -477,7 +497,20 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         Cursor myCursor = myDB.rawQuery("select * from zeker", null);
         while (myCursor.moveToNext()) {
             String description = "عدد التسبيح : " + myCursor.getInt(2);
-            cardDataList.add(new CardData(myCursor.getInt(0), myCursor.getString(1), description, myCursor.getInt(3)));
+
+            long lastOpenedAt = 0;
+            int idx = myCursor.getColumnIndex("last_opened_at");
+            if (idx != -1) lastOpenedAt = myCursor.getLong(idx);
+
+            CardData cd = new CardData(
+                    myCursor.getInt(0),
+                    myCursor.getString(1),
+                    description,
+                    myCursor.getInt(3),
+                    lastOpenedAt
+            );
+            cardDataList.add(cd);
+
             totalNumber += myCursor.getInt(2);
         }
         List<CardData> tempCardDataList = new ArrayList<>(cardDataList);
@@ -497,7 +530,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         adapter.notifyDataSetChanged();
 
         myCursor.close();
-        DatabaseManager.closeDatabase();
+        myDB.close();
 
 
 

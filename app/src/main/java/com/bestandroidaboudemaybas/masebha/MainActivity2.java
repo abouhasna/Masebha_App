@@ -41,7 +41,8 @@ public class MainActivity2 extends AppCompatActivity {
     private Integer jalseNumber;
     private TextView modeToggle;
 
-    private boolean isVibrationEnabled;
+    private boolean vibrationOnTap;
+    private boolean vibrationOnLoop;
     private boolean isSoundEnabled;
 
     private MediaPlayer mediaPlayer;
@@ -144,9 +145,10 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
-        isVibrationEnabled = appPreferences.getBoolean("default_vibration", true);
+        vibrationOnTap  = appPreferences.getBoolean("vibration_on_tap", false);
+        vibrationOnLoop = appPreferences.getBoolean("vibration_on_loop", true);
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.click);
+        mediaPlayer = MediaPlayer.create(this, R.raw.tap);
         isSoundEnabled = appPreferences.getBoolean("default_sound", false);
 
 
@@ -184,15 +186,18 @@ public class MainActivity2 extends AppCompatActivity {
         if (isSoundEnabled) {
             mediaPlayer.start();
         }
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrationOnTap) {
+            vibrator.vibrate(300);
+        }
         if (progressBar.getProgress() == 10000) {
             progressBar.setProgress(0);
             currentNumber.setText("0");
             Integer newDawra = Integer.parseInt(dawra.getText().toString()) + 1;
             dawra.setText(newDawra.toString());
-            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             if (vibrator != null && vibrator.hasVibrator()) {
-                if (isVibrationEnabled) {
-                    vibrator.vibrate(100);
+                if (vibrationOnLoop) {
+                    vibrator.vibrate(1000);
                 }
             }
         }
@@ -258,8 +263,13 @@ public class MainActivity2 extends AppCompatActivity {
         myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
         Cursor myCursor = myDB.rawQuery("select * from zeker where _id = " + clickedCardId, null);
         myCursor.moveToFirst();
+
+        long lastOpenedAt = 0;
+        int idx = myCursor.getColumnIndex("last_opened_at");
+        if (idx != -1) lastOpenedAt = myCursor.getLong(idx);
+
         String description = String.valueOf(myCursor.getInt(2));
-        cardData = new CardData(myCursor.getInt(0), myCursor.getString(1), description, myCursor.getInt(3));
+        cardData = new CardData(myCursor.getInt(0), myCursor.getString(1), description, myCursor.getInt(3), lastOpenedAt);
         myCursor.close();
         myDB.close();
     }
@@ -272,6 +282,7 @@ public class MainActivity2 extends AppCompatActivity {
         myDB = openOrCreateDatabase("masebha.db", MODE_PRIVATE, null);
         ContentValues updatedValues = new ContentValues();
         updatedValues.put("total", Integer.parseInt(total.getText().toString()));
+        updatedValues.put("last_opened_at", System.currentTimeMillis());
         myDB.update("zeker", updatedValues, "_id=?", new String[]{String.valueOf(cardData.getId())});
         myDB.close();
     }

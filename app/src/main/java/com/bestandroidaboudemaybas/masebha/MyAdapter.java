@@ -60,6 +60,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.descriptionTextView.setText(cardData.getDescription());
         holder.descriptionTextView.setTextColor(cardTextColor);
         holder.moreOption.setColorFilter(cardTextColor);
+        holder.lastOpened.setText(formatLastOpened(cardData.getLastOpenedAt()));
+        holder.lastOpened.setTextColor(cardTextColor);
         CardView cardView = (CardView) holder.itemView;
         cardView.setCardBackgroundColor(cardBackgroundColor);
     }
@@ -78,11 +80,44 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    private String formatLastOpened(long tsMillis) {
+        if (tsMillis <= 0) return "لم يُفتح بعد";
+
+        long now = System.currentTimeMillis();
+        long diff = now - tsMillis;
+
+        if (diff < 3 * 60 * 1000L) return "منذ قليل";
+
+        java.util.Calendar cNow = java.util.Calendar.getInstance();
+        java.util.Calendar cTs = java.util.Calendar.getInstance();
+        cTs.setTimeInMillis(tsMillis);
+
+        boolean sameYear = cNow.get(java.util.Calendar.YEAR) == cTs.get(java.util.Calendar.YEAR);
+        boolean sameDay = sameYear &&
+                cNow.get(java.util.Calendar.DAY_OF_YEAR) == cTs.get(java.util.Calendar.DAY_OF_YEAR);
+
+        java.text.SimpleDateFormat timeFmt =
+                new java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
+
+        if (sameDay) return "اليوم " + timeFmt.format(new java.util.Date(tsMillis));
+
+        java.util.Calendar y = java.util.Calendar.getInstance();
+        y.add(java.util.Calendar.DAY_OF_YEAR, -1);
+        boolean yesterday =
+                y.get(java.util.Calendar.YEAR) == cTs.get(java.util.Calendar.YEAR) &&
+                        y.get(java.util.Calendar.DAY_OF_YEAR) == cTs.get(java.util.Calendar.DAY_OF_YEAR);
+
+        if (yesterday) return "أمس " + timeFmt.format(new java.util.Date(tsMillis));
+
+        return new java.text.SimpleDateFormat("yyyy/MM/dd", java.util.Locale.getDefault())
+                .format(new java.util.Date(tsMillis));
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView descriptionTextView;
         ImageView moreOption;
+        TextView lastOpened;
         MyAdapter adapter;
         SQLiteDatabase myDB;
         public ViewHolder(View itemView, MyAdapter adapter, Context context,OnItemDeletedListener itemDeletedListener) {
@@ -91,6 +126,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             titleTextView = itemView.findViewById(R.id.titleTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             moreOption = itemView.findViewById(R.id.more_option);
+            lastOpened = itemView.findViewById(R.id.last_opened);
 
 
 
