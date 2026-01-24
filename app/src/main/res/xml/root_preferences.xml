@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layoutDirection="rtl">
     <ListPreference
         android:key="theme"
         android:title="ألوان التطبيق"
@@ -25,7 +26,7 @@
         android:key="save_counts"
         android:title="اكمال الدورة"
         android:summary="اكمال الدورة غير المنتهية في الجلسة الجديدة"
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:icon="@drawable/save_svgrepo_com"/>
 
     <ListPreference

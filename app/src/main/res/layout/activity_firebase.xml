@@ -14,12 +14,21 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             app:titleTextColor="@color/white"
             app:title=""
             android:paddingRight="15dp"
             android:background="#000000">
-
+            <ImageButton
+                android:id="@+id/shareButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="4dp"
+                android:padding="9dp"
+                android:background="@drawable/circle_white_background"
+                android:contentDescription="Share button"
+                android:src="@drawable/share_icon" />
         </androidx.appcompat.widget.Toolbar>
 
         <TextView

@@ -33,7 +33,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/rounded_layout_colorpicker"
             android:fontFamily="@font/tajawal_regular"
-            android:padding="7dp"
+            android:padding="4dp"
             android:text="وضع توفير الطاقة"
             android:textColor="@color/colorAccent1"
             android:textSize="20sp"

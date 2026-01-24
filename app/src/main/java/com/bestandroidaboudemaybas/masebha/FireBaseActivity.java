@@ -3,13 +3,17 @@ package com.bestandroidaboudemaybas.masebha;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +37,7 @@ import java.util.Objects;
 public class FireBaseActivity extends AppCompatActivity {
 
     private Button sendButton;
+    private ImageButton shareButton;
     private TextView firebaseText;
     private FirebaseFirestore db;
 
@@ -49,6 +54,7 @@ public class FireBaseActivity extends AppCompatActivity {
         setupToolbar();
 
 
+        shareButton = findViewById(R.id.shareButton);
 
         ImageView otherAppsImage = findViewById(R.id.other_apps_image);
         SharedPreferences firebasePreferences = getSharedPreferences("FireBasePrefs", Context.MODE_PRIVATE);
@@ -98,6 +104,31 @@ public class FireBaseActivity extends AppCompatActivity {
             }
         });
 
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String shareText =
+                        "تطبيق *مسبحة الكترونية* 📿\n\n" +
+                                "يمنحك هذا التطبيق تجربة سلسة ومرنة لاستخدام المسبحة الإلكترونية، مع إمكانية تخصيص الأذكار وتنظيمها حسب احتياجاتك.\n\n" +
+                                "✨ المميزات الأساسية:\n" +
+                                "- إضافة وتعديل الأذكار وترتيبها.\n" +
+                                "- حساب عدد الدورات والمجموع الكلي لكل ذكر.\n" +
+                                "- تنبيه صوتي أو اهتزازي عند اكتمال الدورة.\n" +
+                                "- وضع توفير الطاقة مع شاشة سوداء.\n" +
+                                "- تخصيص ألوان التطبيق لراحة أكبر.\n" +
+                                "- التحكم بإعدادات أخرى.\n\n" +
+                                "جرّب التطبيق الآن وشارك الأجر مع الآخرين:\n" +
+                                "🔗 https://tinyurl.com/electronic-masebha";
+
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+                shareIntent.setType("text/plain");
+
+                startActivity(Intent.createChooser(shareIntent, "مشاركة عبر"));
+            }
+        });
     }
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
