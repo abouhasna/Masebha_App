@@ -17,61 +17,35 @@
         app:titleTextColor="@color/white">
         <ImageButton
             android:id="@+id/reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="end"
             android:layout_margin="4dp"
-            android:padding="9dp"
-            android:background="@drawable/circle_white_background"
-            android:contentDescription="Toggle Vibration"
+            android:padding="8dp"
+            android:background="@drawable/toolbar_action_group_bg"
+            android:contentDescription="Reset numbers"
             android:src="@drawable/reset_icon" />
-        <TextView
+        <ImageButton
             android:id="@+id/toggle_mode_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="end"
             android:layout_marginRight="10dp"
-            android:background="@drawable/rounded_layout_colorpicker"
-            android:fontFamily="@font/tajawal_regular"
+            android:background="@drawable/toolbar_action_group_bg"
             android:padding="4dp"
-            android:text="وضع توفير الطاقة"
-            android:textColor="@color/colorAccent1"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:src="@drawable/night_svgrepo_com"
+            android:contentDescription="Power mode"/>
 
-
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/color_picker_button"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="end"-->
-        <!--            android:layout_margin="0dp"-->
-        <!--            android:background="#00000000"-->
-        <!--            android:contentDescription="Toggle Vibration"-->
-        <!--            android:padding="8dp"-->
-        <!--            android:src="@drawable/vibration_icon_on" />-->
-
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/toggle_mode_button"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="end"-->
-        <!--            android:layout_margin="0dp"-->
-        <!--            android:background="#00000000"-->
-        <!--            android:contentDescription="Toggle Mode"-->
-        <!--            android:padding="8dp"-->
-        <!--            android:src="@drawable/mode_toggle_icon" />-->
-
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/toggle_sound_button"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="end"-->
-        <!--            android:layout_margin="0dp"-->
-        <!--            android:background="#00000000"-->
-        <!--            android:contentDescription="Toggle Sound"-->
-        <!--            android:padding="8dp"-->
-        <!--            android:src="@drawable/sound_off" />-->
+        <ImageButton
+            android:id="@+id/btn_undo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/toolbar_action_group_bg"
+            android:padding="8dp"
+            android:src="@drawable/undo_svgrepo_com"
+            android:contentDescription="Undo count" />
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
@@ -232,16 +206,6 @@
         android:layout_height="match_parent"
         android:background="#EE000000"
         android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/tajawal_light"
-            android:gravity="center"
-            android:text=" وضع توفير الطاقة  \n\nللخروج اضغط على علامة x بالأعلى"
-            android:textColor="#80FFFFFF"
-            android:textSize="20sp" />
 
         <ImageButton
             android:id="@+id/close_button"

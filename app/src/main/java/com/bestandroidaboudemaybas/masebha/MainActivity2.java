@@ -39,7 +39,7 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     private Integer jalseNumber;
-    private TextView modeToggle;
+    private ImageButton modeToggle;
 
     private boolean vibrationOnTap;
     private boolean vibrationOnLoop;
@@ -59,6 +59,7 @@ public class MainActivity2 extends AppCompatActivity {
     private TextView currentNumber;
 
     private ImageButton resetButton;
+    private ImageButton undoButton;
 
 
     private GradientDrawable strokDrawable;
@@ -108,6 +109,7 @@ public class MainActivity2 extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_button);
         currentNumber = findViewById(R.id.current_number);
         resetButton = findViewById(R.id.reset);
+        undoButton = findViewById(R.id.btn_undo);
         overlayProgress = findViewById(R.id.overlayProgress);
         closeButton = findViewById(R.id.close_button);
         modeToggle = findViewById(R.id.toggle_mode_button);
@@ -123,7 +125,7 @@ public class MainActivity2 extends AppCompatActivity {
         zekerName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeValue);
         total.setText(cardData.getDescription());
         dawra.setText("0");
-        if(appPreferences.getBoolean("save_counts", true))
+        if(appPreferences.getBoolean("save_counts", false))
             currentNumber.setText(String.valueOf(Integer.parseInt(cardData.getDescription()) % cardData.getDawra()));
         else
             currentNumber.setText("0");
@@ -132,12 +134,6 @@ public class MainActivity2 extends AppCompatActivity {
         jalseNumber = 0;
 
 
-//        progressBar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                progressUpdate();
-//            }
-//        });
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +141,39 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int cur = Integer.parseInt(currentNumber.getText().toString());
+                int tot = Integer.parseInt(total.getText().toString());
+                int daw = Integer.parseInt(dawra.getText().toString());
+
+                if (cur == 0 && daw == 0) return; // nothing to undo
+
+                if (cur > 0) {
+                    cur--;
+                } else {
+                    // cur == 0 but we have at least one dawra, rollback one full loop
+                    if (daw > 0) {
+                        daw--;
+                        cur = cardData.getDawra() - 1;
+                    }
+                }
+
+                // total should only undo taps done in this session
+                if (jalseNumber > 0) {
+                    jalseNumber--;
+                    if (tot > 0) tot--;
+                }
+
+                currentNumber.setText(String.valueOf(cur));
+                dawra.setText(String.valueOf(daw));
+                total.setText(String.valueOf(tot));
+
+                int progress = (cur * 10000) / cardData.getDawra();
+                progressBar.setProgress(progress);
+            }
+        });
         vibrationOnTap  = appPreferences.getBoolean("vibration_on_tap", false);
         vibrationOnLoop = appPreferences.getBoolean("vibration_on_loop", true);
 
@@ -188,7 +217,7 @@ public class MainActivity2 extends AppCompatActivity {
         }
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (vibrationOnTap) {
-            vibrator.vibrate(300);
+            vibrator.vibrate(100);
         }
         if (progressBar.getProgress() == 10000) {
             progressBar.setProgress(0);
@@ -197,7 +226,7 @@ public class MainActivity2 extends AppCompatActivity {
             dawra.setText(newDawra.toString());
             if (vibrator != null && vibrator.hasVibrator()) {
                 if (vibrationOnLoop) {
-                    vibrator.vibrate(1000);
+                    vibrator.vibrate(300);
                 }
             }
         }
