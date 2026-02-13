@@ -125,13 +125,17 @@ public class MainActivity2 extends AppCompatActivity {
         zekerName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeValue);
         total.setText(cardData.getDescription());
         dawra.setText("0");
-        if(appPreferences.getBoolean("save_counts", false))
+        if(appPreferences.getBoolean("save_counts", false)){
             currentNumber.setText(String.valueOf(Integer.parseInt(cardData.getDescription()) % cardData.getDawra()));
-        else
+            jalseNumber = Integer.parseInt(cardData.getDescription()) % cardData.getDawra();
+        }
+        else {
             currentNumber.setText("0");
+            jalseNumber = 0;
+        }
         progressBar.setMax(10000);
         progressBar.setProgress((Integer.parseInt(currentNumber.getText().toString()) * 10000) / cardData.getDawra());
-        jalseNumber = 0;
+
 
 
         resetButton.setOnClickListener(new View.OnClickListener() {
