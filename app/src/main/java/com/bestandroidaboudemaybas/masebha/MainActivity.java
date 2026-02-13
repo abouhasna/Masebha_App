@@ -20,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -34,9 +35,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.chrono.HijrahDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -85,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     private Button buttonText;
     private Button cancel;
 
+    private TextView hijriDate;
+    private TextView hijriDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +161,10 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
                             String base64Image = documentSnapshot.getString("otherapps");
+                            String firebaseText = documentSnapshot.getString("firebaseText");
+                            if(firebaseText != null) {
+                                firebasePreferences.edit().putString("firebaseText", firebaseText).apply();
+                            }
                             if (base64Image != null) {
                                 firebasePreferences.edit().putString("otherapps", base64Image).apply();
                             }
@@ -281,42 +292,68 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     }
 
     private void showPopup(String title, String description, String buttonText, String buttonUrl,String base64Image) {
-        if (base64Image != null) {
-            // Decode Base64 → byte[]
+        if (base64Image != null && !base64Image.trim().isEmpty()) {
             byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
-
-            // Convert to Bitmap
             Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-
-            // Show in ImageView
             popupImage.setImageBitmap(bitmap);
+            popupImage.setVisibility(View.VISIBLE);
+        } else {
+            popupImage.setVisibility(View.GONE);
         }
 
         this.title.setText(title);
         this.description.setText(description);
         this.buttonText.setText(buttonText);
         popupDialog.show();
-        this.buttonText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(buttonUrl));
-                startActivity(browserIntent);
-                popupDialog.dismiss();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupDialog.dismiss();
-            }
-        });
+        boolean hasUrl = buttonUrl != null && !buttonUrl.trim().isEmpty();
 
+        this.buttonText.setOnClickListener(v -> {
+            if (hasUrl) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(buttonUrl.trim()));
+                startActivity(browserIntent);
+            }
+            popupDialog.dismiss();
+        });
+        cancel.setOnClickListener(v -> popupDialog.dismiss());
+
+    }
+
+    private static String toArabicIndicDigits(String s) {
+        if (s == null) return null;
+        char[] out = new char[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {
+                out[i] = (char) ('\u0660' + (c - '0')); // ٠١٢٣٤٥٦٧٨٩
+            } else {
+                out[i] = c;
+            }
+        }
+        return new String(out);
     }
 
     private void setupToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
+        hijriDate = findViewById(R.id.hijri_date);
+        hijriDay  = findViewById(R.id.hijri_day);
+
+        Locale ar = new Locale("ar");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            HijrahDate h = HijrahDate.from(LocalDate.now());
+
+            DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("d MMMM yyyy", ar);
+            DateTimeFormatter dayFmt  = DateTimeFormatter.ofPattern("EEEE", ar);
+
+            hijriDate.setText(toArabicIndicDigits(dateFmt.format(h)));            // ex: 1 رمضان 1447
+            hijriDay.setText(dayFmt.format(LocalDate.now())); // ex: السبت (weekday from Gregorian)
+        } else {
+            // If you support <26, tell me your minSdk and I’ll give you the clean fallback.
+            hijriDate.setText("");
+            hijriDay.setText("");
+        }
     }
 
     private boolean doesDatabaseExist(Context context, String dbName) {
@@ -547,6 +584,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         mainLayout.setBackgroundColor(sharedPreferences.getInt("backgroundSelectedColor", Color.parseColor("#202020")));
         settings.setColorFilter(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));
         settings.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("backgroundSelectedColor", Color.parseColor("#202020"))));
+
+        hijriDate.setTextColor(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));
+        hijriDay.setTextColor(sharedPreferences.getInt("toolsAccentSelectedColor", Color.WHITE));
 
         fab.setBackgroundTintList(ColorStateList.valueOf(sharedPreferences.getInt("toolsSelectedColor",  Color.parseColor("#009736"))));
         fab.setColorFilter(sharedPreferences.getInt("textSelectedColor", Color.WHITE));

@@ -31,14 +31,44 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/settings_icon" />
 
-        <ImageView
+        <!-- Center Hijri date -->
+        <LinearLayout
+            android:id="@+id/hijri_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:src="@drawable/icon_islamic_arabic_vector" />
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/hijri_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="١ رمضان ١٤٤٧"
+                android:fontFamily="@font/tajawal_medium"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/hijri_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="السبت"
+                android:fontFamily="@font/tajawal_medium"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginTop="7dp"-->
+<!--            android:layout_marginBottom="7dp"-->
+<!--            android:src="@drawable/icon_islamic_arabic_vector" />-->
 
         <ImageButton
             android:id="@+id/firebase_button"
