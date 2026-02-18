@@ -12,6 +12,14 @@
         android:title="إعدادات متقدمة"
         android:summary="اختيار الألوان بشكل محترف"
         android:icon="@drawable/advanced_themes"/>
+    <ListPreference
+        android:key="hijri_offset"
+        android:title="تعديل التاريخ الهجري"
+        android:summary="إضافة أو إنقاص أيام حسب بلدك"
+        android:entries="@array/hijri_offset_entries"
+        android:entryValues="@array/hijri_offset_values"
+        android:defaultValue="0"
+        android:icon="@drawable/calendar_lines_pen_svgrepo_com"/>
     <SwitchPreference
         android:key="default_sound"
         android:title="صوت التسبيح"

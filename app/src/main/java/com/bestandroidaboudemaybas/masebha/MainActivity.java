@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.chrono.HijrahDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
     private TextView majmu3Static;
     private TextView majmu3;
     private SharedPreferences firebasePreferences;
+    private SharedPreferences prefs;
 
     private TextView title;
     private TextView description;
@@ -137,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         recyclerView.setAdapter(adapter);
 
         drawable = new GradientDrawable();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         setupToolbar();
 
 
@@ -342,7 +347,14 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         Locale ar = new Locale("ar");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            HijrahDate h = HijrahDate.from(LocalDate.now());
+
+            int offset = Integer.parseInt(
+                    prefs.getString("hijri_offset", "0")
+            );
+
+            HijrahDate h = HijrahDate
+                    .from(LocalDate.now())
+                    .plus(offset, ChronoUnit.DAYS);
 
             DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("d MMMM yyyy", ar);
             DateTimeFormatter dayFmt  = DateTimeFormatter.ofPattern("EEEE", ar);
@@ -523,6 +535,28 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemD
         super.onResume();
 
         loadData();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Locale ar = new Locale("ar");
+
+            int offset = Integer.parseInt(
+                    prefs.getString("hijri_offset", "0")
+            );
+
+            HijrahDate h = HijrahDate
+                    .from(LocalDate.now())
+                    .plus(offset, ChronoUnit.DAYS);
+
+            DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("d MMMM yyyy", ar);
+            DateTimeFormatter dayFmt  = DateTimeFormatter.ofPattern("EEEE", ar);
+
+            hijriDate.setText(toArabicIndicDigits(dateFmt.format(h)));            // ex: 1 رمضان 1447
+            hijriDay.setText(dayFmt.format(LocalDate.now())); // ex: السبت (weekday from Gregorian)
+        } else {
+            // If you support <26, tell me your minSdk and I’ll give you the clean fallback.
+            hijriDate.setText("");
+            hijriDay.setText("");
+        }
     }
 
 

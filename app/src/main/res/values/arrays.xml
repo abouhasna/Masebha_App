@@ -20,6 +20,21 @@
         <item>كبير</item>
         <item>كبير جداً</item>
     </string-array>
+    <string-array name="hijri_offset_entries">
+        <item>ناقص يومين</item>
+        <item>ناقص يوم</item>
+        <item>بدون تعديل</item>
+        <item>زيادة يوم</item>
+        <item>زيادة يومين</item>
+    </string-array>
+
+    <string-array name="hijri_offset_values">
+        <item>-2</item>
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
     <string-array name="font_size_values">
         <item>14</item>

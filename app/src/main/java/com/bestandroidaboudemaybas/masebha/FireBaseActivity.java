@@ -83,34 +83,24 @@ public class FireBaseActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         TextInputEditText suggestionEditText = findViewById(R.id.suggestion_text);
-        TextInputEditText contactEditText = findViewById(R.id.contact_text);
         sendButton.setOnClickListener(v -> {
             String suggestion = Objects.requireNonNull(suggestionEditText.getText()).toString().trim();
-            String contact = "";
-            if (contactEditText.getText() != null) {
-                contact = contactEditText.getText().toString().trim();
-            }
+
 
             if (!suggestion.isEmpty()) {
                 Map<String, Object> data = new HashMap<>();
                 data.put("suggestion", suggestion);
                 data.put("timestamp", FieldValue.serverTimestamp());
 
-                if (!contact.isEmpty()) {
-                    data.put("contact", contact); // optional field
-                }
-
                 db.collection("suggestions")
                         .add(data)
                         .addOnSuccessListener(ref -> {
                             Toast.makeText(this, "شكرا على اقتراحك", Toast.LENGTH_SHORT).show();
                             suggestionEditText.setText("");
-                            contactEditText.setText(""); // clear too
                         })
                         .addOnFailureListener(e ->
                                 Toast.makeText(this, "عذرا هناك مشكلة ما, تأكد من اتصالك بالانترنت", Toast.LENGTH_SHORT).show());
                                 suggestionEditText.setText("");
-                                contactEditText.setText("");
             } else {
                 Toast.makeText(this, "الرجاء كتابة اقتراح", Toast.LENGTH_SHORT).show();
             }
